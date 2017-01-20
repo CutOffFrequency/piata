@@ -1,0 +1,256 @@
+commit f26ea900bd30e8179213b6f1f6d515ec4f4319b1
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 17 14:50:38 2017 -0500
+
+    progress bar working, need to fix label and put inside alert
+
+commit 28b2c33046a1444aa019c4787ea9074dfdb0c925
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 17 14:09:53 2017 -0500
+
+    updated ToDos
+
+commit e81d61b589f26a8a56776981cb5ff7e4bf50438d
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 17 13:53:00 2017 -0500
+
+    progress work, still bugged
+
+commit d674a40c685d2cdc87ceae5e09145b43f5298dfd
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Fri Jan 13 19:46:31 2017 -0500
+
+    client api work, updAlert bug needs fixin'
+
+commit f5883f12854e5c9efa74e343ededda025339f84d
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Jan 12 19:08:46 2017 -0500
+
+    fixed css links / lodash script tag, replaced try/catch with _.attempt
+
+commit 5441289f9ffbf359369e6ab0d2d2f18d78bf12f1
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Jan 12 17:00:45 2017 -0500
+
+    added lodash, corrected license for SDX compliance
+
+commit e05ac0f4fa1da5fc5391e6a63447352000f5927d
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Jan 12 16:20:53 2017 -0500
+
+    updated to dos
+
+commit 689e5468eb35a2c70652fc4dd885048f6f17f1d7
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Jan 12 16:19:57 2017 -0500
+
+    data handling api
+
+commit 55be680f772618e34c664c8c3b55cc36ef63af8c
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Jan 12 16:18:24 2017 -0500
+
+    error handling for JSON.parse
+
+commit fcce9f0fdb88b926966d84291f26e4b0afd022b2
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 10 19:49:54 2017 -0500
+
+    new structure, clean up
+
+commit ad2180f83ffa2d0ba6ce9dae66e1831af25d9f26
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 10 17:21:13 2017 -0500
+
+    updated to dos
+
+commit 7cac90f7ff08c5e33d146b566a6653c382d65e9b
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 10 14:47:25 2017 -0500
+
+    moved view updation to controller.js
+
+commit 0d6bff4b9d5100e31a2a6600c801da82bbff8c53
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 10 13:57:35 2017 -0500
+
+    updated to dos
+
+commit be72cb1ddb3c6c3f334f98fa89a4ae643c95cba2
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 10 13:33:15 2017 -0500
+
+    fixed gulp task build:app
+
+commit 058c66f06520983dc43c92513028a62f2c576c77
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Sat Jan 7 17:31:47 2017 -0500
+
+    cleanup, gulp task 'build: app' needs work
+
+commit c933624b25e276aea1853cfe1f5ccef2deadadd1
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Sat Jan 7 17:06:56 2017 -0500
+
+    readme updated
+
+commit 41cd4d1f4f93a443ca06cb037121f1b21c79a7a4
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Sat Jan 7 17:04:42 2017 -0500
+
+    src restruct / gulp updated, progress bar prelim, routing clean up
+
+commit 35324932e82d88217ecc4d4c364f56a3d4152be9
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 3 19:21:58 2017 -0500
+
+    updated readme
+
+commit 8cba8cbe6d34d844fd2e12fd8928393695037fb7
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Jan 3 19:15:38 2017 -0500
+
+    clean up, user feedback hooks? / acct mgmt api?
+
+commit a91deb4126f2ba9abecb65e4e611a7d4dcf8e084
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Mon Jan 2 17:16:50 2017 -0500
+
+    corrected syntax for server side socket events
+
+commit 237cc513fc6ffd15b5181a6590d9f286ca06d3d8
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Sun Jan 1 19:26:37 2017 -0500
+
+    updated todo
+
+commit 1d2ee8e95154bff98e2147e0862a224f2a7d9371
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Sun Jan 1 19:24:46 2017 -0500
+
+    hooked wrapper up to route handler, choking after validation
+
+commit 1282f192d33de06b17a4d347e97f782f5b52eb43
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Fri Dec 30 19:18:34 2016 -0500
+
+    clean up, dynamic routes working, need to connect model module to socket.io
+
+commit 77c1152e4a6c665ee179be08d46768f523a6465b
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Dec 20 20:54:52 2016 -0500
+
+    pubsub added, need to fix routing for socket.io
+
+commit 896bffa61e6cb0cd4bd5464879afe85a71022b17
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Dec 8 11:54:03 2016 -0500
+
+    tried promise.all in router/controller
+
+commit ef9017b87c00e14962cf4e22f66f1041669d22cb
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Wed Nov 30 14:46:56 2016 -0500
+
+    fixed typos, load route should immediately resolve
+
+commit 1f16863858c0a8ecbd5ccc5407e4a214d2fe6a1d
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Wed Nov 30 11:46:26 2016 -0500
+
+    clean up, better commenting
+
+commit ad08b7d572869438f877c18796518734f830d1b0
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Nov 29 20:18:09 2016 -0500
+
+    updated todo steps
+
+commit 8f3c3065149b8420e6dd85443a18d576db58a7e6
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Nov 29 20:14:35 2016 -0500
+
+    account subdir verification completed
+
+commit 1fc723e1fab90e5d83f85980dcaf4a09840eb9dd
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Nov 29 20:11:05 2016 -0500
+
+    promisified post route, cleaner logging
+
+commit eb8a80c486b8b8cf14b62b289d047f32d92e36af
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Nov 29 18:38:25 2016 -0500
+
+    added logscript.txt to .gitignore
+
+commit e896c0c9a4a613a7b2549a794b002046ff441faa
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Tue Nov 29 18:17:14 2016 -0500
+
+    more clean up, correct http codes, promisified ajax calls
+
+commit 76724cd0397a69b75b8b6c6506fe625b3bed78c7
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Fri Nov 18 18:35:28 2016 -0500
+
+    fixed bug, cleaned up acct submit route
+
+commit fe38371223465de2fbca0905edcbff22500d76c3
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Nov 17 19:21:03 2016 -0500
+
+    clean up
+
+commit 8236c2d9fb6575a4fea989db3db57683490b8c5c
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Nov 17 18:45:18 2016 -0500
+
+    linted
+
+commit 7dee5d51ba23b983632270a5a21a8bdf9b6a3723
+Merge: 2684ba2 302f52c
+Author: HumanSprout <erikj.waters@gmail.com>
+Date:   Thu Nov 17 14:19:29 2016 -0500
+
+    Merge pull request #1 from mathus13/patch-1
+    
+    Update README.md
+
+commit 302f52c9b5791183b59bef406cb6b693b0b8ffd4
+Author: Shawn Barratt <mathus13@gmail.com>
+Date:   Thu Nov 17 14:09:46 2016 -0500
+
+    Update README.md
+    
+    add new line before lists
+
+commit 2684ba23f145096392648a904a66ef0dc0bf7df5
+Author: HumanSprout <erikj.waters@gmail.com>
+Date:   Thu Nov 17 14:02:43 2016 -0500
+
+    Create README.md
+
+commit 87258a3815a3956e33a777d6af0846cfdf06e029
+Author: HumanSprout <erikj.waters@gmail.com>
+Date:   Thu Nov 17 13:48:51 2016 -0500
+
+    Rename piata-edit.js to piata.js
+
+commit b51dfd40ddccb1dde778f9411ccf62807e8e7788
+Author: HumanSprout <erikj.waters@gmail.com>
+Date:   Thu Nov 17 13:48:36 2016 -0500
+
+    Delete piata.js
+
+commit b4f8f2fdec75870b2ccb20d6791bb2779e998e9a
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Nov 17 13:52:35 2016 -0500
+
+    First commit
+
+commit 9fd21d0b321700b4dd3ff0286f165e411b4aabb3
+Author: Erik Waters <erikj.waters@gmail.com>
+Date:   Thu Nov 17 13:01:22 2016 -0500
+
+    First commit
