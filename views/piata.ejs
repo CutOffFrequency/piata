@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PiataGlance</title>
+    <meta charset="UTF-8">
+    <html lang="en">
+    <link rel="stylesheet" type="text/css" href="public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="public/css/piata.css">
+</head>
+<body>
+<!-- modal -->
+    <div class="modal fade" id="acctModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Accounts Loaded</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="acctList"></form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- jumbotron -->
+    <header class="jumbotron">
+        <div class="container">
+            <h1 id="header">Pi ataGlance</h1>
+        </div>
+    </header>
+<!-- content -->
+    <div class="content" id="acctDiv">
+        <div class="row row-content">
+<!-- status label -->
+            <div class="col-xs-8 col-xs-offset-2">
+                <div class="alert alert-succss hidden" role="alert" id="acctAlert"></div>
+                <div id="statusProgress" class="hidden">
+                    <div id="statusBar">
+                        <div id="statusLabel"></div>
+                    </div>
+                </div>
+            </div>
+<!-- main body -->
+            <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
+                <input type="text" placeholder="Enter Acct #" id="acctIn"></input>
+                <button class="btn btn-primary" id="acctSub">Load Acct</button>
+            </div>
+            
+            <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
+                <button class="btn btn-primary" id="acctLoaded" data-toggle="modal"
+                    data-target="#acctModal">Manage Accounts Loaded</button>
+            </div>
+        </div>
+    </div>
+    <script src="public/scripts/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="public/scripts/pubsub.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js" integrity="sha256-8E6QUcFg1KTnpEU8TFGhpTGHw5fJqB9vCms3OhAYLqw=" crossorigin="anonymous"></script>
+    <script src="public/scripts/piata.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+  div.alert {
+    font-weight: bold;
+} span.label.label-danger {
+    margin-left: 50px;
+} form#acctList .acctListed,
+  form#acctList .acctListed .acctListed {
+    display: inline;
+} #statusProgress {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  background-color: #f9f9f9;
+} #statusBar {
+  position: absolute;
+  width: 1%;
+  height: 100%;
+  background-color: #5cb85c;
+} #statusLabel {
+    text-align: center;
+    line-height: 30px;
+    color: white;
+}

@@ -1,0 +1,30 @@
+{
+  "name": "ssmain",
+  "version": "0.1.0",
+  "description": "BPE scripting suite",
+  "main": "bin/www.js",
+  "scripts": {
+    "stop": "nodemon --ext \".js|.ejs\" -w . -w public -w views -w routes -w models server.js",
+    "build": "browserify app.js -o build/js/scripts/bundle.js"
+  },
+  "author": "ewaters@bpeinc.com",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "ejs": "^2.5.1",
+    "express": "^4.14.0",
+    "gulp": "^3.9.1",
+    "jquery": "^3.1.1",
+    "lodash": "^4.17.4",
+    "socket.io": "^1.7.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "browserify": "^13.1.1",
+    "del": "^2.2.2",
+    "eslint": "^3.10.2",
+    "eslint_d": "^4.2.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-eslint": "^3.0.1"
+  }
+}
