@@ -1,18 +1,27 @@
 "use strict";
 jQuery(($) => {
-    const acctIn = $("#acctIn");
-    const acctSub = $("#acctSub");
-    const acctList = $("#acctList");
-    const acctLoaded = $("#acctLoaded");
+    const acct_input = $("#acct-input");
+    const acct_submit = $("#acct-submit");
+    const acct_list = $("#acct-list");
+    const acct_manage = $("#acct-manage");
     // store acct data as array of versions 
     let accts = [];
+/*    let testAcct = [];
+    testAcct.push({
+        acct: 9987,
+        data: null
+    });
+    accts.push(testAcct);
+*/
     // returns array of account numbers for consumption
     let listAccts = () => {
-        var acctList = [];
-        for (let acct of accts) {
-            acctList.push(acct[0].acct);
+        var acct_list = [];
+        if (accts) {
+            for (let acct of accts) {
+                acct_list.push(acct[0].acct);
+            }
         }
-        return acctList
+        return acct_list
     };
     // removes acct from accts
     let delAcct = (acct) => {
@@ -27,26 +36,30 @@ jQuery(($) => {
         let stats = {};
         stats.acct = data.acct;
         if (data.valid && data.info !== null) {
-            // loop through acct array to see if acct is already loaded
+            // loops through acct array to see if acct is already loaded
             let checkList = listAccts();
+            console.log(checkList);
             if ( checkList.includes(data.acct) ) {
                 for (let acct of accts) {
                     if (acct[0].acct === data.acct) {
                         for (let version of acct) {
-                            // handle if a matching version is already loaded
-                            if ( isEqual(version, data) ) {
+                            // handles if matching version loaded
+                            if ( _.isEqual(version, data) ) {
                                 stats.event = "match found"
                                 return
                             }
                         }
-                        // add new version if acct is already loaded
+                        // adds new version if acct is already loaded
+
                         acct.push(data);
                         stats.event = "new version";
                     }
                 }
             } else {
                 // add a new account if not already loaded
-                accts.push(data);
+                let newAcct = [];
+                newAcct.push(data)
+                accts.push(newAcct);
                 stats.event = "new account";
             }
         } else {
@@ -58,16 +71,16 @@ jQuery(($) => {
         pubsub.publish("_acct handled", stats);
     };
     // acct submit button event handler
-    acctSub.on("click", () => {
+    acct_submit.on("click", () => {
         // begins account verification and load requests
-        pubsub.publish( "load acct", acctIn.val() );
+        pubsub.publish( "load acct", acct_input.val() );
     });
     // acct loaded button event handler
-    acctLoaded.on("click", () => {
-        pubsub.publish( "_updAccts", listAccts() )
+    acct_manage.on("click", () => {
+        pubsub.publish( "_updAccts", listAccts() );
     });
     // acct deletion event listener on acctList
-    acctList.on("click", "span", (e) => {
+    acct_list.on("click", "span", (e) => {
         let target = $(e.target);
         if ( target.hasClass("remove") ) {
             delAcct(e.target.id);

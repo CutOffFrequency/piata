@@ -1,20 +1,20 @@
 jQuery(($) => {
     // jquery dom elements
-    const acctAlert = $("#acctAlert");
-    const acctList = $("#acctList");
-    const statusDiv = $("#statusProgress");
-    const statusBar = $("#statusBar");
-    const statusLabel = $("#statusLabel");
+    const acct_alert = $("#acct-alert");
+    const acct_list = $("#acct-list");
+    const status_div = $("#status-outer-div");
+    const status_bar = $("#status-inner-div");
+    const status_label = $("#status-label");
     // updates progress bar
     let progressBar = (percent, hide) => {
         if (hide) { 
-            statusDiv.addClass("hidden");
+            status_div.addClass("hidden");
         } else {
-            statusDiv.removeClass("hidden");
+            status_div.removeClass("hidden");
         }
         console.log("status label should read: ", percent, "%");
-        statusLabel.innerText = percent + "%";
-        statusBar.css("width", percent + "%");
+        status_label.innerText = percent + "%";
+        status_bar.css("width", percent + "%");
     };
     let updateProgress = (topics, progress) => {
         progressBar(progress.percent, progress.hide);
@@ -27,13 +27,13 @@ jQuery(($) => {
         let alertType = (type) => {
             switch(type) {
                 case "success":
-                    acctAlert.removeClass("alert-danger").removeClass("alert-warning").addClass("alert-success");
+                    acct_alert.removeClass("alert-danger").removeClass("alert-warning").addClass("alert-success");
                     break;
                 case "danger":
-                    acctAlert.removeClass("alert-sucess").removeClass("alert-warning").addClass("alert-danger");
+                    acct_alert.removeClass("alert-sucess").removeClass("alert-warning").addClass("alert-danger");
                     break;
                 case "warning":
-                    acctAlert.removeClass("alert-danger").removeClass("alert-success").addClass("alert-warning");
+                    acct_alert.removeClass("alert-danger").removeClass("alert-success").addClass("alert-warning");
                     break;
                 default:
                     alert("error in alertType function");
@@ -42,45 +42,45 @@ jQuery(($) => {
         // updates alert text
         let alertText = (event, acct) => {
             console.log("alerting: ",event,acct);
-            if ( acctAlert.hasClass("hidden") ) { acctAlert.removeClass("hidden") }
+            if ( acct_alert.hasClass("hidden") ) { acct_alert.removeClass("hidden") }
             switch(event) {
                 case "found":
                     alertType("warning");
                     progressBar(0);
-                    acctAlert.text("Account" + acct + " is loading, please wait...");
+                    acct_alert.text("Account" + acct + " is loading, please wait...");
                     break;
                 case "new account":
                     alertType("success");
                     progressBar(100);
-                    acctAlert.text(acct + " successfully loaded - ready to examine");
+                    acct_alert.text(acct + " successfully loaded - ready to examine");
                     break;
                 case "new version":
                     alertType("warning");
-                    acctAlert.text(acct + "has been reloaded - a new version is available");
+                    acct_alert.text(acct + " has been reloaded - a new version is available");
                     break;
                 case "match found":
                     alertType("success");
-                    acctAlert.text(acct + " successfully re-loaded - ready to examine");
+                    acct_alert.text(acct + " successfully re-loaded - ready to examine");
                     break;
                 case "invalid":
                     alertType("danger");
                     progressBar(null, true);
-                    acctAlert.text(acct + " is invalid - Enter a correct account #");
+                    acct_alert.text(acct + " is invalid - Enter a correct account #");
                     break;
                 case "delete":
                     alertType("warning");
                     progressBar(null, true);
-                    acctAlert.text(acct + " was removed");
+                    acct_alert.text(acct + " was removed");
                     break;
                 case "JSON error":
                     alertType("danger");
                     progressBar(null, true);
-                    acctAlert.text("an error occurred parsing the returned object from python");
+                    acct_alert.text("an error occurred parsing the returned object from python");
                     break;
                 case "null data":
                     alertType("danger");
                     progressBar(null, true);
-                    acctAlert.text("request processed but null acct data returned!");
+                    acct_alert.text("request processed but null acct data returned!");
                     break;
                 default:
                     let errMsg
@@ -105,20 +105,20 @@ jQuery(($) => {
     };
     // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
-    let updAcctList = (accts) => {
-        if ( acctList.children().length > 0 ){
-            acctList.empty();
+    let update_list = (topics, accts_listed) => {
+        if ( acct_list.children().length > 0 ){
+            acct_list.empty();
         }
-        for (let acct of accts) {
-            acctList.append(
-                '<span class="acctListed"><p class="acctListed">'
+        for (let acct of accts_listed) {
+            acct_list.append(
+                '<span class="acctListed"><p class="acct_listed">'
                  + acct +
-                '</p><span class="label label-danger acctListed remove" id="'
+                '</p><span class="label label-danger acct_isted remove" id="remove_'
                  + acct +
                 '">Remove</span></span><div></div>'
             );
         }
     };
     // subscribes to update event for account list modal
-    pubsub.subscribe("_updAccts", updAcctList);
+    pubsub.subscribe("_updAccts", update_list);
 });

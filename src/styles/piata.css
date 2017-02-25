@@ -16,6 +16,8 @@
   height: 100%;
   background-color: #5cb85c;
   z-index: 0;
+  margin-bottom: 20px;
+  margin-top: -10px;
 } #statusLabel {
   text-align: center;
   line-height: 30px;

@@ -31,9 +31,7 @@
         returnObject(data.acct, true, null);
     })
     socket.on("JSON error", (data) => {
-        let errObj = {};
-        errObj.data = data;
-        console.log("could not parse data returned from python: ", errObj);
+        console.log("could not parse data returned from python: ", data);
         returnObject(false, true, null);
     })
     socket.on("return acct", (json) => {
