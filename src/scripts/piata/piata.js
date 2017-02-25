@@ -4,8 +4,8 @@ jQuery(($) => {
     const acctSub = $("#acctSub");
     const acctList = $("#acctList");
     const acctLoaded = $("#acctLoaded");
-    // stores acct data as array of versions 
-    var accts = [];
+    // store acct data as array of versions 
+    let accts = [];
     // returns array of account numbers for consumption
     let listAccts = () => {
         var acctList = [];
@@ -24,40 +24,38 @@ jQuery(($) => {
     };
     // manages acct array after loading data
     let handleAcct = (topics, data) => {
-        let handled = {};
-        handled.acct = data.acct;
-        if (data.valid === true && data.info !== null) {
+        let stats = {};
+        stats.acct = data.acct;
+        if (data.valid && data.info !== null) {
             // loop through acct array to see if acct is already loaded
             let checkList = listAccts();
             if ( checkList.includes(data.acct) ) {
                 for (let acct of accts) {
                     if (acct[0].acct === data.acct) {
                         for (let version of acct) {
+                            // handle if a matching version is already loaded
                             if ( isEqual(version, data) ) {
-                                // handle reversion
-                                handled.event = "match found"
-                                console.log("handled", handled);
-                                pubsub.publish("_acct handled", handled);
+                                stats.event = "match found"
                                 return
                             }
                         }
+                        // add new version if acct is already loaded
                         acct.push(data);
-                        handled.event = "new version";
-                        console.log("handled", handled);
-                        pubsub.publish("_acct handled", handled);
+                        stats.event = "new version";
                     }
                 }
             } else {
-                handled.event = "new account";
-                console.log("handled", handled);
-                pubsub.publish("_acct handled", handled);
+                // add a new account if not already loaded
+                accts.push(data);
+                stats.event = "new account";
             }
+        } else {
+            stats.event = "null data";
         }
-        if (data.valid === false) {
-            handled.event = "invalid";
-            console.log("handled", handled);
-            pubsub.publish("_acct handled", handled);
+        if (!data.valid) {
+            stats.event = "invalid";
         }
+        pubsub.publish("_acct handled", stats);
     };
     // acct submit button event handler
     acctSub.on("click", () => {

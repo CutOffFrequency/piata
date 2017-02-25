@@ -12,7 +12,7 @@ jQuery(($) => {
         } else {
             statusDiv.removeClass("hidden");
         }
-        console.log("status lable should read: ", percent, "%");
+        console.log("status label should read: ", percent, "%");
         statusLabel.innerText = percent + "%";
         statusBar.css("width", percent + "%");
     };
@@ -76,6 +76,11 @@ jQuery(($) => {
                     alertType("danger");
                     progressBar(null, true);
                     acctAlert.text("an error occurred parsing the returned object from python");
+                    break;
+                case "null data":
+                    alertType("danger");
+                    progressBar(null, true);
+                    acctAlert.text("request processed but null acct data returned!");
                     break;
                 default:
                     let errMsg
