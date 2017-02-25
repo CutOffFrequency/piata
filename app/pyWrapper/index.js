@@ -23,7 +23,10 @@ let callSpawn = (acct, io) => {
     child.stdout.on("data", (chunk) => {
         if (chunk.toString() !== "success") {
             progressIncrement += 20;
-            io.of("/piata").emit("appending", progressIncrement);
+            io.of("/piata").emit("appending", {
+                percent: progressIncrement,
+                hide: false
+            });
             outJSON += chunk;
         }
     });

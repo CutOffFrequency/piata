@@ -47,7 +47,7 @@
     })
     socket.on("appending", (increment) => {
         pubsub.publish("update progress", {
-            percent: increment
+            percent: Number(increment)
         })
     })
 })(window);

@@ -6,12 +6,12 @@ let routing = (req, res) => {
     let router = express.Router(),
         routes = [{
             path: "/",
-            title: "ssMain",
-            view: "home"
+            view: "home",
+            title: "ssMain"
         }, {
             path: "/piata",
-            title: "Pi ataGlance",
-            view: "piata"
+            view: "piata",
+            title: "Pi ataGlance"
         }];
     let routeIndex = routes.findIndex(route => route.path === req.path);
     if (routeIndex >= 0) {

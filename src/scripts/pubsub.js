@@ -4,7 +4,7 @@ let pubsub = {};
     let topics = {},
     subUid = -1;
     // publish event
-    // with: name & args (data to pass along)
+    // with: name & data (args)
     q.publish = ( topic, args ) => {
         console.log("publishing: ", topic);
         let subscribers, len;

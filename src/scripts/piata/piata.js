@@ -36,22 +36,26 @@ jQuery(($) => {
                             if ( isEqual(version, data) ) {
                                 // handle reversion
                                 handled.event = "match found"
+                                console.log("handled", handled);
                                 pubsub.publish("_acct handled", handled);
                                 return
                             }
                         }
                         acct.push(data);
                         handled.event = "new version";
+                        console.log("handled", handled);
                         pubsub.publish("_acct handled", handled);
                     }
                 }
             } else {
                 handled.event = "new account";
+                console.log("handled", handled);
                 pubsub.publish("_acct handled", handled);
             }
         }
         if (data.valid === false) {
             handled.event = "invalid";
+            console.log("handled", handled);
             pubsub.publish("_acct handled", handled);
         }
     };

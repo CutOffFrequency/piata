@@ -12,13 +12,14 @@ jQuery(($) => {
         } else {
             statusDiv.removeClass("hidden");
         }
+        console.log("status lable should read: ", percent, "%");
         statusLabel.innerText = percent + "%";
         statusBar.css("width", percent + "%");
     };
     let updateProgress = (topics, progress) => {
         progressBar(progress.percent, progress.hide);
     }
-    // subscribes to pub sub for progress bar
+    // subscribes to pub sub for progress bar events
     pubsub.subscribe("update progress", updateProgress)
     // updates alert for user feedback
     let updAlert = (topics, eventHandled) => {
@@ -63,18 +64,36 @@ jQuery(($) => {
                     break;
                 case "invalid":
                     alertType("danger");
+                    progressBar(null, true);
                     acctAlert.text(acct + " is invalid - Enter a correct account #");
                     break;
                 case "delete":
                     alertType("warning");
+                    progressBar(null, true);
                     acctAlert.text(acct + " was removed");
                     break;
                 case "JSON error":
                     alertType("danger");
+                    progressBar(null, true);
                     acctAlert.text("an error occurred parsing the returned object from python");
                     break;
                 default:
-                    alert("error in updAlert function - event: ", event, " acct: ", acct);
+                    let errMsg
+                    if (event && acct) {
+                        errMsg = "event: " + event + " acct: "+ acct;
+                    }
+                    if (!event && !acct) {
+                        errMsg = "no event or acct data!"
+                    }
+                    if (!event) {
+                        errMsg = " acct: " + acct + "no event data!" ;
+                    }
+                    if (!acct) {
+                        errMsg = " event: " + event + "no acct data!";
+                    }
+                    if (errMsg) {
+                       alert("error in updAlert function = ", errMsg);
+                    }
             }
         }
         alertText(eventHandled.event, eventHandled.acct);
