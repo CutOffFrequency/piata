@@ -4,7 +4,7 @@ const checkAcct = require("../pyWrapper/checke.js").check;
 const _ = require("lodash");
 // spawns child process to call python script
 let callSpawn = (acct, io) => {
-    io.of("/piata").emit("spawning");
+    io.of("/piata").emit("spawning", acct);
     // inits arguments / options
     const loc = "e:\\scripts\\eriknowledgence";
     const command = "e:\\python27\\python";
@@ -13,10 +13,10 @@ let callSpawn = (acct, io) => {
     const options = { stdio: "pipe", cwd: loc };
     let outJSON = "";
     let progressIncrement;
-    let child = spawn(command, args, options,(err, stdout, stderr) => {
+    let child = spawn(command, args, options, (err, stdout, stderr) => {
         progressIncrement = 10;
         if (err) {
-            console.error(err);
+            console.error("error from spawn process: ", err);
         }
     });
     // chunks data returned from python script

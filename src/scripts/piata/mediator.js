@@ -23,6 +23,7 @@
         }
         pubsub.publish("return acct", acctObj);
     }
+    ////* listen for data events *////
     socket.on("validate fail", (acct) => {
         returnObject(acct, false, null);
     })
@@ -37,15 +38,19 @@
     socket.on("return acct", (json) => {
         returnObject(json.acct, true, json);
     })
-    // handles state changes
-    socket.on("spawning", () => {
+    ////* listen for state events *////
+    socket.on("spawning", (acct) => {
+        pubsub.publish("_acct handled", {
+            event: "found",
+            acct: acct
+        });
         pubsub.publish("update progress", {
             percent: 10
         })
     })
     socket.on("appending", (increment) => {
         pubsub.publish("update progress", {
-            percent: Number(increment)
+            percent: increment
         })
     })
 })(window);

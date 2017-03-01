@@ -47,7 +47,7 @@ jQuery(($) => {
                 case "found":
                     alertType("warning");
                     progressBar(0);
-                    acct_alert.text("Account" + acct + " is loading, please wait...");
+                    acct_alert.text("Account is loading, please wait...");
                     break;
                 case "new account":
                     alertType("success");
