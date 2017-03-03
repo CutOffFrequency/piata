@@ -2,20 +2,25 @@
 const fs = require("fs");
 const _ = require("lodash");
 
-let lookUp = (acct) => {
+let lookUp = ( acct )  => {
     const ordentry = "e:\\ordentry\\";
     // if acct number is in range, check e:
     if ( acct % 1 === 0 && acct > 0 && acct < 10000 ) {
         let target = _.attempt( (path) => {
             return fs.statSync(path);
-        }, ordentry + acct.toString() );
-        if ( target instanceof Error ) { return false }
+        }, ordentry + acct.toString().trim() );
+        if ( target instanceof Error ) { 
+            console.log("error from lookUp", target);
+            return false
+        }
         if ( target.isDirectory() ) {
             return true
         } else {
+            console.log("lookUp target is not a directory");
             return false
         }
     } else {
+        console.log("lookUp target is out of range");
         return false
     }
 };

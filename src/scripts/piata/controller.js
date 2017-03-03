@@ -42,7 +42,7 @@ jQuery(($) => {
                     break;
                 case "match found":
                     alertType("success");
-                    acct_alert.text(acct + " successfully re-loaded - ready to examine");
+                    acct_alert.text(acct + " matches version cached, no changes made");
                     break;
                 case "invalid":
                     alertType("danger");
@@ -89,12 +89,27 @@ jQuery(($) => {
         }
         for (let acct of accts_listed) {
             acct_list.append(
-                '<span class="acctListed"><p class="acct_listed">'
-                 + acct +
-                '</p><span class="label label-danger acct_listed remove" id="remove_'
-                 + acct +
-                '">Remove</span></span><div></div>'
+                '<span class="acct_listed" id="acct-listed_'
+                + acct.acct + '"><p class="acct_listed">'
+                + acct.acct +
+                '</p><span class="label label-danger remove" id="remove_'
+                + acct.acct +
+                '">Remove</span></span>'
             );
+            if (acct.versions > 1) {
+                let parent = $("#acct-listed_" + acct.acct);
+                for (let i = 0; i < acct.versions; i++) {
+                    let vIndex = i + 1;
+                    parent.append(
+                        '<span class="acct_version" id="'
+                        + acct.acct + '_v' + vIndex +
+                        '" >v' + vIndex + '</span><span ' +
+                        'class="label label-danger remove acct_version" id="remove_'
+                        + acct.acct + '_v' + vIndex +
+                        '">X</span>'
+                    )
+                }
+            }
         }
     };
     // subscribes to update event for account list modal
