@@ -8,13 +8,16 @@ Users will be able to load account data into customizable tables for swift analy
 TO DO:
 
 1. loaded account management options
-  1. fix bugs in controller api
-  2. load / reload / remove / remove listener (memory leak!)
-  3. finish progress bar
+  1. fix delete acct function
+  2. add / remove event listeners
 2. build various tables for analysis
   1. common conflict fields
   2. before / after update analysis
   3. cross account analysis
-3. watch files loaded files for state change and alert?
+3. incorporate itas solutions RestAPI
+  1. add functionality for tables currently not supported
+  	1. orders
+  	2. SLs/PLs
+  2. simple queries that only require single tables
 
-*Previous repo has been removed due to the accidental release of client information, a record of all previous commits has been preserved in the branch: prevcommits
+*Previous repo has been removed- a record of all previous commits has been preserved in the branch: prevcommits
