@@ -44,13 +44,5 @@
             event: "found",
             acct: acct
         });
-        pubsub.publish("update progress", {
-            percent: 10
-        })
-    })
-    socket.on("appending", (increment) => {
-        pubsub.publish("update progress", {
-            percent: increment
-        })
     })
 })(window);

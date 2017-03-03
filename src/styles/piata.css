@@ -23,4 +23,6 @@
   line-height: 30px;
   color: white;
   z-index: 1;
+} p.acct_listed {
+  display: inline;
 }

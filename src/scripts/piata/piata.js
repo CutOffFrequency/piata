@@ -74,6 +74,7 @@ jQuery(($) => {
     acct_submit.on("click", () => {
         // begins account verification and load requests
         pubsub.publish( "load acct", acct_input.val() );
+        acct_input.val(" ");
     });
     // acct loaded button event handler
     acct_manage.on("click", () => {

@@ -93,6 +93,12 @@ gulp.task("build:styles", ["clean:public"], () => {
        concatStyles(style);
    }
 });
+gulp.task("copy:bs.css.map", ["build:styles"], () => {
+    return gulp.src([
+        "node_modules/bootstrap/dist/css/bootstrap.min.css.map"
+    ])
+        .pipe(gulp.dest("public/styles"));
+})
 // meta tasks
 gulp.task("default", [
     "lint:public",
@@ -101,5 +107,6 @@ gulp.task("default", [
     "build:maincss",
     "build:scripts",
     "build:apps",
-    "build:styles"
+    "build:styles",
+    "copy:bs.css.map"
 ]);

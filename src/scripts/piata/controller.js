@@ -5,22 +5,6 @@ jQuery(($) => {
     const status_div = $("#status-outer-div");
     const status_bar = $("#status-inner-div");
     const status_label = $("#status-label");
-    // updates progress bar
-    let progressBar = (percent, hide) => {
-        if (hide) { 
-            status_div.addClass("hidden");
-        } else {
-            status_div.removeClass("hidden");
-        }
-        console.log("status label should read: ", percent, "%");
-        status_label.innerText = percent + "%";
-        status_bar.css("width", percent + "%");
-    };
-    let updateProgress = (topics, progress) => {
-        progressBar(progress.percent, progress.hide);
-    }
-    // subscribes to pub sub for progress bar events
-    pubsub.subscribe("update progress", updateProgress)
     // updates alert for user feedback
     let updAlert = (topics, eventHandled) => {
         // updates alert color
@@ -46,12 +30,10 @@ jQuery(($) => {
             switch(event) {
                 case "found":
                     alertType("warning");
-                    progressBar(0);
-                    acct_alert.text("Account is loading, please wait...");
+                    acct_alert.text(acct + " is loading, please wait...");
                     break;
                 case "new account":
                     alertType("success");
-                    progressBar(100);
                     acct_alert.text(acct + " successfully loaded - ready to examine");
                     break;
                 case "new version":
@@ -64,22 +46,18 @@ jQuery(($) => {
                     break;
                 case "invalid":
                     alertType("danger");
-                    progressBar(null, true);
-                    acct_alert.text(acct + " is invalid - Enter a correct account #");
+                    acct_alert.text(acct + " is invalid or validation failed");
                     break;
                 case "delete":
                     alertType("warning");
-                    progressBar(null, true);
                     acct_alert.text(acct + " was removed");
                     break;
                 case "JSON error":
                     alertType("danger");
-                    progressBar(null, true);
                     acct_alert.text("an error occurred parsing the returned object from python");
                     break;
                 case "null data":
                     alertType("danger");
-                    progressBar(null, true);
                     acct_alert.text("request processed but null acct data returned!");
                     break;
                 default:
@@ -113,7 +91,7 @@ jQuery(($) => {
             acct_list.append(
                 '<span class="acctListed"><p class="acct_listed">'
                  + acct +
-                '</p><span class="label label-danger acct_isted remove" id="remove_'
+                '</p><span class="label label-danger acct_listed remove" id="remove_'
                  + acct +
                 '">Remove</span></span><div></div>'
             );

@@ -12,9 +12,7 @@ let callSpawn = (acct, io) => {
     const args = [ script, "-u", acct, "stream" ];
     const options = { stdio: "pipe", cwd: loc };
     let outJSON = "";
-    let progressIncrement;
     let child = spawn(command, args, options, (err, stdout, stderr) => {
-        progressIncrement = 10;
         if (err) {
             console.error("error from spawn process: ", err);
         }
@@ -22,11 +20,6 @@ let callSpawn = (acct, io) => {
     // chunks data returned from python script
     child.stdout.on("data", (chunk) => {
         if (chunk.toString() !== "success") {
-            progressIncrement += 20;
-            io.of("/piata").emit("appending", {
-                percent: progressIncrement,
-                hide: false
-            });
             outJSON += chunk;
         }
     });
