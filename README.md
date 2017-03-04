@@ -7,9 +7,9 @@ Users will be able to load account data into customizable tables for swift analy
 
 TO DO:
 
-1. loaded account management options
-  1. fix delete acct function
-  2. add / remove event listeners
+1. Squash bugs
+  1. alert not updating on account removal
+  2. fix styling for account list
 2. build various tables for analysis
   1. common conflict fields
   2. before / after update analysis
