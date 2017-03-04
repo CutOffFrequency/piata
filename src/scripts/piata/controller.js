@@ -2,9 +2,6 @@ jQuery(($) => {
     // jquery dom elements
     const acct_alert = $("#acct-alert");
     const acct_list = $("#acct-list");
-    const status_div = $("#status-outer-div");
-    const status_bar = $("#status-inner-div");
-    const status_label = $("#status-label");
     // updates alert for user feedback
     let updAlert = (topics, eventHandled) => {
         // updates alert color
@@ -30,27 +27,38 @@ jQuery(($) => {
             switch(event) {
                 case "found":
                     alertType("warning");
-                    acct_alert.text(acct + " is loading, please wait...");
+                    acct_alert.text(acct +
+                        " is loading, please wait...");
                     break;
                 case "new account":
                     alertType("success");
-                    acct_alert.text(acct + " successfully loaded - ready to examine");
+                    acct_alert.text(acct +
+                        " successfully loaded - ready to examine");
                     break;
                 case "new version":
                     alertType("warning");
-                    acct_alert.text(acct + " has been reloaded - a new version is available");
+                    acct_alert.text(acct +
+                        " has been reloaded - a new version is available");
                     break;
                 case "match found":
                     alertType("success");
-                    acct_alert.text(acct + " matches version cached, no changes made");
+                    acct_alert.text(acct +
+                        " matches version cached, no changes made");
                     break;
                 case "invalid":
                     alertType("danger");
-                    acct_alert.text(acct + " is invalid or validation failed");
+                    acct_alert.text(acct +
+                        " is invalid or validation failed");
                     break;
-                case "delete":
+                case "delete account":
                     alertType("warning");
-                    acct_alert.text(acct + " was removed");
+                    acct_alert.text(acct +
+                        ": all versions were removed");
+                    break;
+                case "delete version":
+                    alertType("warning");
+                    acct_alert.text(acct +
+                        " version was removed, list reindexed");
                     break;
                 case "JSON error":
                     alertType("danger");
@@ -61,7 +69,7 @@ jQuery(($) => {
                     acct_alert.text("request processed but null acct data returned!");
                     break;
                 default:
-                    let errMsg
+                    let errMsg;
                     if (event && acct) {
                         errMsg = "event: " + event + " acct: "+ acct;
                     }
@@ -89,11 +97,14 @@ jQuery(($) => {
         }
         for (let acct of accts_listed) {
             acct_list.append(
-                '<span class="acct_listed" id="acct-listed_'
-                + acct.acct + '"><p class="acct_listed">'
-                + acct.acct +
-                '</p><span class="label label-danger remove" id="remove_'
-                + acct.acct +
+                '<span class="acct_listed" ' +
+                // account span id
+                'id="acct-listed_' + acct.acct +
+                '"><p class="acct_listed">' +
+                acct.acct + '</p><span class="label ' +
+                'label-danger remove remove_acct" ' +
+                // acct removal label id
+                'id="rem_a_' + acct.acct +
                 '">Remove</span></span>'
             );
             if (acct.versions > 1) {
@@ -101,11 +112,14 @@ jQuery(($) => {
                 for (let i = 0; i < acct.versions; i++) {
                     let vIndex = i + 1;
                     parent.append(
-                        '<span class="acct_version" id="'
-                        + acct.acct + '_v' + vIndex +
-                        '" >v' + vIndex + '</span><span ' +
-                        'class="label label-danger remove acct_version" id="remove_'
-                        + acct.acct + '_v' + vIndex +
+                        '<span class="acct_version ' +
+                        // version span id
+                        'id="v_' + vIndex +
+                        '">v' + vIndex + '</span><span ' +
+                        'class="label label-danger remove ' +
+                        'remove_version" ' +
+                        // version removal label id
+                        'id="rem_a_' + acct.acct + 'v_' + vIndex +
                         '">X</span>'
                     )
                 }
