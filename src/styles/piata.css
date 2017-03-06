@@ -1,5 +1,7 @@
   div.alert {
     font-weight: bold;
+} div#acct-list > span.acct_listed {
+	display: block;
 } div#acct-list > span.acct_listed > * {
 	display: inline;
 	margin-left: 10px;

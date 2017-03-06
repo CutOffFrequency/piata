@@ -37,9 +37,7 @@ jQuery(($) => {
         let event,
             response = {};
         response.acct = acct;
-        response.version = version;
         let deleteAccount = (a, v) => {
-            console.log("delete Account invoked!");
             if (remAcct) {
                 console.log("deleting a: ", a);
                 event = "delete account";
@@ -50,7 +48,8 @@ jQuery(($) => {
                 event = "delete version";
                 accts[a].splice(v, 1);
             }
-            pubsub.publish(event, response);
+            response.event = event;
+            pubsub.publish("_acct handled", response);
             pubsub.publish( "_updAccts", listAccts(true) );
             return
         }
@@ -58,12 +57,12 @@ jQuery(($) => {
             for (let i = 0; i < accts.length; i++ ) {
                 if (accts[i][0].acct == acct ) {
                     if (remAcct) {
-                        console.log("remAcct - deleteAccount invoked?");
                         deleteAccount(i);
+                        return
                     }
                     if (version) {
-                        console.log("!remAcct - deleteAccount invoked?");
                         deleteAccount(i, version - 1);
+                        return
                     } else {
                         errorize("no target");
                     }

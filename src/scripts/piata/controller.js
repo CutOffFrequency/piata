@@ -8,13 +8,19 @@ jQuery(($) => {
         let alertType = (type) => {
             switch(type) {
                 case "success":
-                    acct_alert.removeClass("alert-danger").removeClass("alert-warning").addClass("alert-success");
+                    acct_alert.removeClass("alert-danger")
+                    .removeClass("alert-warning")
+                    .addClass("alert-success");
                     break;
                 case "danger":
-                    acct_alert.removeClass("alert-sucess").removeClass("alert-warning").addClass("alert-danger");
+                    acct_alert.removeClass("alert-sucess")
+                    .removeClass("alert-warning")
+                    .addClass("alert-danger");
                     break;
                 case "warning":
-                    acct_alert.removeClass("alert-danger").removeClass("alert-success").addClass("alert-warning");
+                    acct_alert.removeClass("alert-danger")
+                    .removeClass("alert-success")
+                    .addClass("alert-warning");
                     break;
                 default:
                     alert("error in alertType function");
@@ -22,8 +28,13 @@ jQuery(($) => {
         };
         // updates alert text
         let alertText = (event, acct) => {
+            let errorize = (err) => {
+                console.log(err);
+            }
             console.log("alerting: ",event,acct);
-            if ( acct_alert.hasClass("hidden") ) { acct_alert.removeClass("hidden") }
+            if ( acct_alert.hasClass("hidden") ) {
+                acct_alert.removeClass("hidden")
+            }
             switch(event) {
                 case "found":
                     alertType("warning");
@@ -38,7 +49,7 @@ jQuery(($) => {
                 case "new version":
                     alertType("warning");
                     acct_alert.text(acct +
-                        " has been reloaded - a new version is available");
+                        " reloaded - a new version is available");
                     break;
                 case "match found":
                     alertType("success");
@@ -69,22 +80,15 @@ jQuery(($) => {
                     acct_alert.text("request processed but null acct data returned!");
                     break;
                 default:
-                    let errMsg;
-                    if (event && acct) {
-                        errMsg = "event: " + event + " acct: "+ acct;
-                    }
-                    if (!event && !acct) {
-                        errMsg = "no event or acct data!"
-                    }
-                    if (!event) {
-                        errMsg = " acct: " + acct + "no event data!" ;
-                    }
-                    if (!acct) {
-                        errMsg = " event: " + event + "no acct data!";
-                    }
-                    if (errMsg) {
-                       alert("error in updAlert function = ", errMsg);
-                    }
+                    let errAcct,
+                        errEvent,
+                        errMsg;
+                    errAcct = acct ? 
+                        "acct: " + acct : "no acct data!"
+                    errEvent = event ? 
+                        "event: " + event : "no event data!"
+                    errMsg = errAcct + " " + errEvent
+                    errorize(errMsg);
             }
         }
         alertText(eventHandled.event, eventHandled.acct);

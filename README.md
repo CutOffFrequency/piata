@@ -7,14 +7,12 @@ Users will be able to load account data into customizable tables for swift analy
 
 TO DO:
 
-1. Squash bugs
-  1. alert not updating on account removal
-  2. fix styling for account list
-2. build various tables for analysis
+
+1. build various tables for analysis
   1. common conflict fields
   2. before / after update analysis
   3. cross account analysis
-3. incorporate itas solutions RestAPI
+2. incorporate itas solutions RestAPI
   1. add functionality for tables currently not supported
   	1. orders
   	2. SLs/PLs
