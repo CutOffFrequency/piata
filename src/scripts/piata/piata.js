@@ -5,7 +5,6 @@ jQuery(($) => {
     const acct_list = $("#acct-list");
     const acct_manage = $("#acct-manage");
     // store acct data as array of versions
-    // ex: [accts[acct1{v1},{v2}],[acct2{v1}]]
     let accts = [];
     // returns array of account numbers for consumption
     let listAccts = (deep) => {
@@ -30,7 +29,6 @@ jQuery(($) => {
     };
     // removes acct from accts
     let delAcct = (acct, remAcct, version) => {
-        console.log("delAcct invoked...", acct, remAcct, version);
         let errorize = (err) => {
             console.log("error from delAcct: ", err);
         }
@@ -74,7 +72,7 @@ jQuery(($) => {
     };
     // manages acct array after loading data
     let handleAcct = (topics, data) => {
-        let stats = { acct: acct };
+        let stats = { acct: data.acct };
         if (data.valid && data.info !== null) {
             // loops through acct array to see if acct is already loaded
             let checkList = listAccts(false);
