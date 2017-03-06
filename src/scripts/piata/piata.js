@@ -74,8 +74,7 @@ jQuery(($) => {
     };
     // manages acct array after loading data
     let handleAcct = (topics, data) => {
-        let stats = {};
-        stats.acct = data.acct;
+        let stats = { acct: acct };
         if (data.valid && data.info !== null) {
             // loops through acct array to see if acct is already loaded
             let checkList = listAccts(false);
@@ -122,7 +121,6 @@ jQuery(($) => {
         pubsub.publish( "_updAccts", listAccts(true) );
     });
     // acct deletion event listener on acctList
-    // invoke delAcct(acct, remAcct, version)
     acct_list.on("click", (e) => {
         let target = $(e.target),
             substr = e.target.id.substring(6),
@@ -130,14 +128,11 @@ jQuery(($) => {
             tAcct = substr.substring(0, vIndex),
             tVersion = substr.substring(vIndex + 2);
         if ( target.hasClass("remove_acct") ) {
-            // delete acct
-            // console.log("acct: ", substr, " len: ", substr.length ) ;
+            // remove acct from accts
             delAcct(substr, true, null);
         }
         if ( target.hasClass("remove_version") ) {
-            // remove version
-            // console.log("acct: ", tAcct, " len: ", tAcct.length);
-            // console.log("version: ", tVersion, " len: ", tVersion.length );
+            // remove version from accts
             delAcct(tAcct, false, tVersion);
         }
     });

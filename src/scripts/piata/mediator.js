@@ -12,13 +12,13 @@
     // configures acct data for consumption
     let returnObject = (acct, valid, json) => {
         let acctObj = {};
-        if (acct) {
+        if (acct && valid) {
             acctObj.acct = acct;
-            acctObj.valid = valid ? true : false;
+            acctObj.valid = true;
             acctObj.info = json;
         } else {
-            acctObj.acct = null;
-            acctObj.valid = true;
+            acctObj.acct = acct ? acct : null;
+            acctObj.valid = false;
             acctObj.info = null;
         }
         pubsub.publish("return acct", acctObj);
