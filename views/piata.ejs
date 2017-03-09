@@ -4,8 +4,8 @@
     <title>PiataGlance</title>
     <meta charset="UTF-8">
     <html lang="en">
-    <link rel="stylesheet" type="text/css" href="public/css/main.css">
-    <link rel="stylesheet" type="text/css" href="public/css/piata.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/piata.css">
 </head>
 <body>
 <!-- modal -->
@@ -31,7 +31,7 @@
         </div>
     </header>
 <!-- content -->
-    <div class="content" id="acctDiv">
+    <div class="content" id="acct-div">
         <div class="row row-content">
 <!-- status label -->
             <div class="col-xs-8 col-xs-offset-2">
@@ -39,20 +39,44 @@
             </div>
 <!-- main body -->
             <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
-                <input type="text" placeholder="Enter Acct #" id="acct-input"></input>
-                <button class="btn btn-primary" id="acct-submit">Load Acct</button>
+                <input type="text" placeholder="Enter Acct #" class="acct-load" id="acct-input"></input>
+                <button class="btn btn-primary acct-load" id="acct-submit">Load Acct</button>
             </div>
-            
             <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
-                <button class="btn btn-primary" id="acct-manage" data-toggle="modal"
-                    data-target="#acct-modal">Manage Accounts Loaded</button>
-            </div>
-<!-- table view -->
-            <div class="hidden" id="data-outer-div">
-                
+                <button class="btn btn-primary acct-load" id="acct-manage"
+                data-toggle="modal" data-target="#acct-modal">
+                    Manage Accounts Loaded
+                </button>
             </div>
         </div>
     </div>
+<!-- data -->
+    <div class="content" id="view-div">
+        <div class="row row-content">
+            <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
+                <div class="col-xs-12 col-sm-6">
+                    <label class="view-options">Select Account: </label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <select id="acct-select"></select>
+                </div>
+            </div>
+            <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
+                <div class="col-xs-12 col-sm-6">
+                    <label class="view-options">Select View: </label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <select id="view-select"></select>
+                </div>
+            </div>
+            <div class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-2">
+                <button class="btn btn-primary" id="view-load">
+                    Load Table
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script src="public/scripts/main.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="public/scripts/pubsub.js"></script>

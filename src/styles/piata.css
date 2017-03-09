@@ -5,5 +5,9 @@
 } div#acct-list > span.acct_listed > * {
 	display: inline;
 	margin-left: 10px;
-	margin-right; 10px;
+	margin-right: 10px;
+} div#view-div > div > *  {
+	margin-top: 20px;
+} .acct-load {
+	margin-bottom: 5px;
 }

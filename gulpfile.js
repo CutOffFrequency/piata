@@ -22,7 +22,7 @@ gulp.task("lint:public", () => {
 gulp.task("clean:public", ["lint:public"], () => {
     return del([
     "public/scripts/**/*",
-    "public/css/**/*"
+    "public/styles/**/*"
     ]);
 });
 gulp.task("build:mainjs", ["clean:public"], () => {
@@ -77,7 +77,7 @@ gulp.task("build:maincss", ["clean:public"], () => {
         "bower_components/bootstrap/dist/css/bootstrap.min.css"
     ])
         .pipe(concat("main.css"))
-        .pipe(gulp.dest("public/css"));
+        .pipe(gulp.dest("public/styles"));
 });
 gulp.task("build:styles", ["clean:public"], () => {
    let styles = fs.readdirSync("src/styles");
@@ -87,7 +87,7 @@ gulp.task("build:styles", ["clean:public"], () => {
             "src/styles/" + style
         ])
         .pipe(concat(style))
-        .pipe(gulp.dest("public/css"));
+        .pipe(gulp.dest("public/styles"));
    }
    for (let style of styles) {
        concatStyles(style);
