@@ -4,10 +4,6 @@ jQuery(($) => {
     const acct_submit = $("#acct-submit");
     const acct_list = $("#acct-list");
     const acct_manage = $("#acct-manage");
-    const data_options = $(".accts-needed");
-    const acct_select = $("#acct-select");
-    const view_select = $("#view-select");
-    // store acct data as array of versions
     let accts = [];
     // returns array of account numbers for consumption
     let listAccts = (deep) => {
@@ -139,12 +135,4 @@ jQuery(($) => {
     });
     // subscribes to pub sub for acct object
     pubsub.subscribe("return acct", handleAcct)
-
-    while (accts && (acct_select.is(":disabled") || view_select.is(":disabled") ) ) {
-        view_select.acct_select.prop("disabled", false);
-    }
-    while (!accts && (!acct_select.is(":disabled") || !view_select.is(":disabled") ) ) {
-        view_select.acct_select.prop("disabled", true);
-    }
-
 });

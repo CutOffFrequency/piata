@@ -2,10 +2,23 @@ jQuery(($) => {
     // jquery dom elements
     const acct_alert = $("#acct-alert");
     const acct_list = $("#acct-list");
+    const acct_select = $("#acct-select");
+    const view_select = $("#view-select");
+    const view_load = $("#view-load");
+    let viewDisabled;
+    // disables / enables data view options
+    let toggleOptions = d => {
+        view_select.prop("disabled", d);
+        acct_select.prop("disabled", d);
+        view_load.prop("disabled", d);
+        viewDisabled = d;
+    };
+    // disables view options on load
+    toggleOptions(true);
     // updates alert for user feedback
     let updAlert = (topics, eventHandled) => {
         // updates alert color
-        let alertType = (type) => {
+        let alertType = type => {
             switch(type) {
                 case "success":
                     acct_alert.removeClass("alert-danger")
@@ -28,48 +41,62 @@ jQuery(($) => {
         };
         // updates alert text
         let alertText = (event, acct) => {
-            let errorize = (err) => {
+            let errorize = err => {
                 console.log(err);
             }
-            console.log("alerting: ",event,acct);
+            console.log("alerting: ", event, acct);
             if ( acct_alert.hasClass("hidden") ) {
                 acct_alert.removeClass("hidden")
             }
             switch(event) {
                 case "found":
                     alertType("warning");
-                    acct_alert.text(acct +
-                        " is loading, please wait...");
+                    acct_alert.text(
+                        acct + " is loading, please wait..."
+                    );
                     break;
                 case "new account":
                     alertType("success");
-                    acct_alert.text(acct +
-                        " successfully loaded - ready to examine");
+                    acct_alert.text(
+                        acct + " successfully loaded - ready to examine"
+                    );
+                    if (viewDisabled) {
+                        toggleOptions(false);
+                    }
                     break;
                 case "new version":
                     alertType("warning");
-                    acct_alert.text(acct +
-                        " reloaded - a new version is available");
+                    acct_alert.text(
+                        acct + " reloaded - a new version is available"
+                    );
                     break;
                 case "match found":
                     alertType("success");
-                    acct_alert.text(acct +
-                        " matches version cached, no changes made");
+                    acct_alert.text(
+                        acct + " matches version cached, no changes made"
+                    );
                     break;
                 case "invalid":
                     alertType("danger");
-                    acct_alert.text(acct +
-                        " is invalid or validation failed");
+                    acct_alert.text(
+                        "Input value (" + acct +
+                        ") is invalid or validation failed"
+                    );
                     break;
                 case "delete account":
                     alertType("warning");
-                    acct_alert.text(acct +
-                        ": all versions were removed");
+                    acct_alert.text(
+                        acct + ": all versions were removed"
+                    );
+                    if (!viewDisabled) { 
+                        toggleOptions(true);
+                    }
                     break;
                 case "delete version":
                     alertType("warning");
-                    acct_alert.text(acct +
-                        " version was removed, list reindexed");
+                    acct_alert.text(
+                        acct + " version was removed, list reindexed"
+                    );
                     break;
                 case "JSON error":
                     alertType("danger");
@@ -80,9 +107,7 @@ jQuery(($) => {
                     acct_alert.text("request processed but null acct data returned!");
                     break;
                 default:
-                    let errAcct,
-                        errEvent,
-                        errMsg;
+                    let errAcct, errEvent, errMsg;
                     errAcct = acct ? 
                         "acct: " + acct : "no acct data!"
                     errEvent = event ? 
