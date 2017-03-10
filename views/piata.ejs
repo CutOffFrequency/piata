@@ -6,8 +6,33 @@
     <html lang="en">
     <link rel="stylesheet" type="text/css" href="public/styles/main.css">
     <link rel="stylesheet" type="text/css" href="public/styles/piata.css">
+    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
 </head>
 <body>
+<!-- handlebars templates -->
+<script id="acct-mgmt-tpl" type="text/x-handlebars-template">
+    {{#each account}}
+        <span class="acct_listed" id="acct-listed_{{acct}}" >
+            <p class="acct_listed">{{acct}}</p>
+            <span class="label label-danger remove remove_acct" 
+            id="rem_a_{{acct}}">Remove</span>
+        {{#if versions}}
+            {{#each versions}}
+                <span class="acct_version" id="v_{{vIndex}}">
+                    v{{vIndex}}
+                </span>
+                <span class="label label-danger remove remove_version"
+                id="{{rem_v_id}}">X</span>
+            {{/each}}
+        {{/if}}
+        </span>
+    {{/each}}
+</script>
+<script id="acct-select-opts-tpl" type="text/x-handlebars-template">
+    {{#each account}}
+            <option value="acct">{{account}}</option>
+    {{/each}}
+</script>
 <!-- modal -->
     <div class="modal fade" id="acct-modal">
         <div class="modal-dialog">
@@ -24,7 +49,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 <!-- jumbotron -->
     <header class="jumbotron">
         <div class="container">

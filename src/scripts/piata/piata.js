@@ -12,9 +12,18 @@ jQuery(($) => {
         if (accts) {
             if (deep) {
                 for (let acct of accts ) {
-                    let listing = {};
-                    listing.acct = acct[0].acct;
-                    listing.versions = acct.length
+                    let vIndex, listing = {};
+                    let account = acct[0].acct;
+                    listing.acct = account;
+                    listing.versions = [];
+                    if ( acct.length > 1) {
+                        for (let i = 0; i < acct.length; i++) {
+                            let v = {};
+                            v.vIndex = i + 1;
+                            v.rem_v_id = "rem_a_" + account + "v_" + vIndex;
+                            listing.versions.push(v);
+                        }
+                    }
                     acct_list.push(listing);
                 }
             } else {

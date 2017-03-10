@@ -1,16 +1,24 @@
 jQuery(($) => {
     // jquery dom elements
-    const acct_alert = $("#acct-alert");
-    const acct_list = $("#acct-list");
-    const acct_select = $("#acct-select");
-    const view_select = $("#view-select");
-    const view_load = $("#view-load");
+    const acct_alert    = $("#acct-alert");
+    const acct_list     = $("#acct-list");
+    const acct_select   = $("#acct-select");
+    const view_select   = $("#view-select");
+    const view_load     = $("#view-load");
+    const acct_manage   = $("#acct-manage");
+    const acct_mgmt_tpl = $("#acct-mgmt-tpl");
     let viewDisabled;
     // disables / enables data view options
     let toggleOptions = d => {
+        if (d) {
+            acct_manage.val("Load an Account to Continue");
+        } else {
+            acct_manage.val("Manage Accounts Loaded");
+        }
+        view_load.prop("disabled", d);
         view_select.prop("disabled", d);
         acct_select.prop("disabled", d);
-        view_load.prop("disabled", d);
+        acct_manage.prop("disabled", d);
         viewDisabled = d;
     };
     // disables view options on load
@@ -121,39 +129,18 @@ jQuery(($) => {
     // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
     let update_list = (topics, accts_listed) => {
+        let context, template, tplScript, html;
         if ( acct_list.children().length > 0 ){
             acct_list.empty();
         }
-        for (let acct of accts_listed) {
-            acct_list.append(
-                '<span class="acct_listed" ' +
-                // account span id
-                'id="acct-listed_' + acct.acct +
-                '"><p class="acct_listed">' +
-                acct.acct + '</p><span class="label ' +
-                'label-danger remove remove_acct" ' +
-                // acct removal label id
-                'id="rem_a_' + acct.acct +
-                '">Remove</span></span>'
-            );
-            if (acct.versions > 1) {
-                let parent = $("#acct-listed_" + acct.acct);
-                for (let i = 0; i < acct.versions; i++) {
-                    let vIndex = i + 1;
-                    parent.append(
-                        '<span class="acct_version ' +
-                        // version span id
-                        'id="v_' + vIndex +
-                        '">v' + vIndex + '</span><span ' +
-                        'class="label label-danger remove ' +
-                        'remove_version" ' +
-                        // version removal label id
-                        'id="rem_a_' + acct.acct + 'v_' + vIndex +
-                        '">X</span>'
-                    )
-                }
-            }
-        }
+        context = {};
+        context.account = accts_listed;
+        template = acct_mgmt_tpl.html();
+        console.log("template: ", template);
+        tplScript = Handlebars.compile(template);
+        html = tplScript(context);
+        console.log("html: ", html);
+        acct_list.append(html);
     };
     // subscribes to update event for account list modal
     pubsub.subscribe("_updAccts", update_list);
