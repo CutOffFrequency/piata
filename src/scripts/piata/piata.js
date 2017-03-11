@@ -6,7 +6,7 @@ jQuery(($) => {
     const acct_manage = $("#acct-manage");
     let accts = [];
     // returns array of account numbers for consumption
-    let listAccts = (deep) => {
+    let listAccts = (deep, acctsToggled) => {
         console.log("list accounts - deep : ", deep);
         var acct_list = [];
         if (accts) {
@@ -32,9 +32,16 @@ jQuery(($) => {
                 }
             }
         }
-        console.log("listing: ", acct_list);
-        return acct_list
+        if (acctsToggled) {
+            pubsub.publish("return shallow accts", acct_list)
+        } else {
+            return acct_list
+        }
     };
+    // listAccts() curried for shallow accts list requests
+    let shallowAccts = topics => listAccts(false, true);
+    // subscribes to shallow accounts list requests
+    pubsub.subscribe("req shallow accts", shallowAccts);
     // removes acct from accts
     let delAcct = (acct, remAcct, version) => {
         let errorize = (err) => {
@@ -142,6 +149,6 @@ jQuery(($) => {
             delAcct(tAcct, false, tVersion);
         }
     });
-    // subscribes to pub sub for acct object
+    // subscribes for new acct object to handle
     pubsub.subscribe("return acct", handleAcct)
 });

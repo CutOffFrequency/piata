@@ -7,6 +7,7 @@ jQuery(($) => {
     const view_load     = $("#view-load");
     const acct_manage   = $("#acct-manage");
     const acct_mgmt_tpl = $("#acct-mgmt-tpl");
+    const acct_sel_opts = $("acct-select-opts-tpl");
     let viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
@@ -16,21 +17,34 @@ jQuery(($) => {
         html = tplScript(context);
         parent.append(html);
     }
-    // disables / enables data view options
-    let toggleOptions = d => {
-        if (d) {
-            acct_manage.val("Load an Account to Continue");
-        } else {
-            acct_manage.val("Manage Accounts Loaded");
-        }
-        view_load.prop("disabled", d);
-        view_select.prop("disabled", d);
-        acct_select.prop("disabled", d);
-        acct_manage.prop("disabled", d);
-        viewDisabled = d;
-    };
+    // populates accounts select
+    let popAcctSel = (topics, accts_listed) => {
+        let context = {};
+        context.accts = accts_listed;
+        renderTpl(acct_sel_opts, context, acct_select);
+    }
+    // subscribes to shallow list response
+    pubsub.subscribe("return shallow accts", popAcctSel);
+    // handles state changes when accts is emptied / populated
+    let acctsToggled = disabling => {
+        // disables / enables data view options
+        let togOpts = d => {
+            if (d) {
+                acct_manage.val("Load an Account to Continue");
+            } else {
+                acct_manage.val("Manage Accounts Loaded");
+            }
+            view_load.prop("disabled", d);
+            view_select.prop("disabled", d);
+            acct_select.prop("disabled", d);
+            acct_manage.prop("disabled", d);
+            viewDisabled = d;
+        };
+        pubsub.publish("req shallow accts");
+        togOpts(disabling);
+    }
     // disables view options on load
-    toggleOptions(true);
+    acctsToggled(true);
     // updates alert for user feedback
     let updAlert = (topics, eventHandled) => {
         // updates alert color
@@ -77,7 +91,7 @@ jQuery(($) => {
                         acct + " successfully loaded - ready to examine"
                     );
                     if (viewDisabled) {
-                        toggleOptions(false);
+                        acctsToggled(false);
                     }
                     break;
                 case "new version":
@@ -105,7 +119,7 @@ jQuery(($) => {
                         acct + ": all versions were removed"
                     );
                     if (!viewDisabled) { 
-                        toggleOptions(true);
+                        acctsToggled(true);
                     }
                     break;
                 case "delete version":
@@ -137,7 +151,7 @@ jQuery(($) => {
     // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
     let update_list = (topics, accts_listed) => {
-        let conext = {};
+        let context = {};
         if ( acct_list.children().length > 0 ){
             acct_list.empty();
         }
