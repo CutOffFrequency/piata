@@ -29,7 +29,7 @@
     {{/each}}
 </script>
 <script id="acct-select-opts-tpl" type="text/x-handlebars-template">
-    {{#each account}}
+    {{#each accts}}
             <option value="{{acct}}">{{account}}</option>
     {{/each}}
 </script>
@@ -86,7 +86,9 @@
                     <label>Select Account: </label>
                 </div>
                 <div class="col-xs-12 col-sm-6">
-                    <select id="acct-select"></select>
+                    <select id="acct-select">
+                        <option>*Account list is empty*</option>
+                    </select>
                 </div>
             </div>
             <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">

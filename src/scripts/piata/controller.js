@@ -7,11 +7,14 @@ jQuery(($) => {
     const view_load     = $("#view-load");
     const acct_manage   = $("#acct-manage");
     const acct_mgmt_tpl = $("#acct-mgmt-tpl");
-    const acct_sel_opts = $("acct-select-opts-tpl");
+    const acct_sel_opts = $("#acct-select-opts-tpl");
     let viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
         let template, tplScript, html;
+        if ( parent.children().length > 0 ){
+            parent.empty();
+        }
         template = tpl.html();
         tplScript = Handlebars.compile(template);
         html = tplScript(context);
@@ -20,7 +23,17 @@ jQuery(($) => {
     // populates accounts select
     let popAcctSel = (topics, accts_listed) => {
         let context = {};
-        context.accts = accts_listed;
+        context.accts = [];
+        for (let acct of accts_listed) {
+            let account = {};
+            account.account = acct;
+            context.accts.push(account);
+        }
+        if (!accts_listed) {
+            context.accts.push({
+                account: "*Account list is empty*"
+            })
+        }
         renderTpl(acct_sel_opts, context, acct_select);
     }
     // subscribes to shallow list response
@@ -40,8 +53,10 @@ jQuery(($) => {
             acct_manage.prop("disabled", d);
             viewDisabled = d;
         };
+        if ( viewDisabled && !disabling || !viewDisabled && disabling ) {
+            togOpts(disabling);
+        }
         pubsub.publish("req shallow accts");
-        togOpts(disabling);
     }
     // disables view options on load
     acctsToggled(true);
@@ -90,9 +105,7 @@ jQuery(($) => {
                     acct_alert.text(
                         acct + " successfully loaded - ready to examine"
                     );
-                    if (viewDisabled) {
-                        acctsToggled(false);
-                    }
+                    acctsToggled(false);
                     break;
                 case "new version":
                     alertType("warning");
@@ -118,9 +131,7 @@ jQuery(($) => {
                     acct_alert.text(
                         acct + ": all versions were removed"
                     );
-                    if (!viewDisabled) { 
-                        acctsToggled(true);
-                    }
+                    acctsToggled(true);
                     break;
                 case "delete version":
                     alertType("warning");
@@ -152,9 +163,6 @@ jQuery(($) => {
     pubsub.subscribe("_acct handled", updAlert);
     let update_list = (topics, accts_listed) => {
         let context = {};
-        if ( acct_list.children().length > 0 ){
-            acct_list.empty();
-        }
         context.account = accts_listed;
         renderTpl(acct_mgmt_tpl, context, acct_list);
     };
