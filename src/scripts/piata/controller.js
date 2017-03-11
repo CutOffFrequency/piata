@@ -8,6 +8,14 @@ jQuery(($) => {
     const acct_manage   = $("#acct-manage");
     const acct_mgmt_tpl = $("#acct-mgmt-tpl");
     let viewDisabled;
+    // compiles handlebars to render templates from markup
+    let renderTpl = (tpl, context, parent) => {
+        let template, tplScript, html;
+        template = tpl.html();
+        tplScript = Handlebars.compile(template);
+        html = tplScript(context);
+        parent.append(html);
+    }
     // disables / enables data view options
     let toggleOptions = d => {
         if (d) {
@@ -129,18 +137,12 @@ jQuery(($) => {
     // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
     let update_list = (topics, accts_listed) => {
-        let context, template, tplScript, html;
+        let conext = {};
         if ( acct_list.children().length > 0 ){
             acct_list.empty();
         }
-        context = {};
         context.account = accts_listed;
-        template = acct_mgmt_tpl.html();
-        console.log("template: ", template);
-        tplScript = Handlebars.compile(template);
-        html = tplScript(context);
-        console.log("html: ", html);
-        acct_list.append(html);
+        renderTpl(acct_mgmt_tpl, context, acct_list);
     };
     // subscribes to update event for account list modal
     pubsub.subscribe("_updAccts", update_list);
