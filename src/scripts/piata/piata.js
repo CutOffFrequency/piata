@@ -7,7 +7,6 @@ jQuery(($) => {
     let accts = [];
     // returns array of account numbers for consumption
     let listAccts = (deep, acctsToggled) => {
-        console.log("list accounts - deep : ", deep);
         var acct_list = [];
         if (accts) {
             if (deep) {
@@ -16,7 +15,7 @@ jQuery(($) => {
                     let account = acct[0].acct;
                     listing.acct = account;
                     listing.versions = [];
-                    if ( acct.length > 1) {
+                    if (acct.length > 1) {
                         for (let i = 0; i < acct.length; i++) {
                             let v = {};
                             v.vIndex = i + 1;
@@ -33,15 +32,16 @@ jQuery(($) => {
             }
         }
         if (acctsToggled) {
-            pubsub.publish("return shallow accts", acct_list)
+            pubsub.publish("return accts for select", acct_list)
+            return
         } else {
             return acct_list
         }
     };
-    // listAccts() curried for shallow accts list requests
-    let shallowAccts = topics => listAccts(false, true);
+    // listAccts() curried for populating acct select
+    let selectAccts = topics => listAccts(false, true);
     // subscribes to shallow accounts list requests
-    pubsub.subscribe("req shallow accts", shallowAccts);
+    pubsub.subscribe("req accts for select", selectAccts);
     // removes acct from accts
     let delAcct = (acct, remAcct, version) => {
         let errorize = (err) => {
@@ -52,12 +52,10 @@ jQuery(($) => {
         response.acct = acct;
         let deleteAccount = (a, v) => {
             if (remAcct) {
-                console.log("deleting a: ", a);
                 event = "delete account";
                 accts.splice(a, 1);
             } 
             if (version) {
-                console.log("deleting a: ", a, " v: ", v);
                 event = "delete version";
                 accts[a].splice(v, 1);
             }
@@ -91,7 +89,6 @@ jQuery(($) => {
         if (data.valid && data.info !== null) {
             // loops through acct array to see if acct is already loaded
             let checkList = listAccts(false);
-            console.log(checkList);
             if ( checkList.includes(data.acct) ) {
                 for (let acct of accts) {
                     if (acct[0].acct === data.acct) {
@@ -151,4 +148,95 @@ jQuery(($) => {
     });
     // subscribes for new acct object to handle
     pubsub.subscribe("return acct", handleAcct)
+    // prepares data for conflicts table rendering
+    let prepareConflicts = (data) => {
+        let context = {};
+        let entries = [];
+        let pushEntry = (file, specOrder) => {
+            for (let entry of data[file]) {
+                let row = {};
+                row.file = file;
+                if (!specOrder && specOrder != null) {
+                    row.where = entry.ORDER;
+                }
+                if (specOrder === null ) {
+                    row.where="N/A"
+                } else {
+                    row.where = entry[specOrder];
+                }
+                if (entry.CONDITION) {
+                    row.value = entry.CONDITION;
+                    entries.push(row);
+                }
+            }
+        }
+        pushEntry("autoa");
+        pushEntry("autob");
+        pushEntry("dcl");
+        pushEntry("sched_cond");
+        pushEntry("taction", null);
+        pushEntry("remind", "ID_REMIND");
+        for (let entry of data.form) {
+            let row = {}
+            let page = "page: " + entry.PAGE_NUM;
+            let eRow = " row: " + entry.L_ROW
+            row.file = "oe_form: formula";
+            row.where = page + eRow;
+            if (entry.FORMULA) {
+                row.value = entry.FORMULA;
+                entries.push(row);
+            }
+            if (entry.URL) {
+                row.value = entry.URL;
+                entries.push(row);
+            }
+        }
+        for (let entry of data.disp_cond) {
+            let row = {};
+            row.file = "disp_cond";
+            row.where = "N/A"
+            if (entry.TESTFIELD) {
+                row.value = entry.TESTFIELD;
+            } 
+            if (entry.DATA1) {
+                row.value += " " + entry.DATA1;
+            }
+            if (entry.DATA2) {
+                row.value += " " + entry.DATA2;
+            }
+            entries.push(row);
+        }
+        context.entries = entries;
+        console.log(context);
+        // pubsub.publish("return conflicts data", context);
+    }
+    // retrieves client data from accts for table load requests
+    let tableRequest = (topics, request) => {
+        console.log("tableRequest invoked");
+        let event, newest, data = {};
+        // retrieves client data from accts
+        for (let acct of accts) {
+            if ( acct[0].acct === Number(request.acct) ) {
+                // prepares data based on type of table
+                newest =  acct[ (acct.length - 1) ];
+                if (request.table === "conflicts") {
+                    console.log("conflicts requested");
+                    // sets data as newest version
+                    data = newest;
+                    prepareConflicts(data);
+                }
+                if (request.table === "before-after" ) {
+                    // sets data props as oldest & newest versions
+                    // data.acct1 = acct[0];
+                    // data.acct2 = newest;
+                    console.log("before-after requested");
+                }
+                if (request.table === "cross-account") {
+                    console.log("cross-account requested");
+                }
+            }
+        }
+    }
+    // subscribes to data requests for rendering tables
+    pubsub.subscribe("table data request", tableRequest);
 });

@@ -6,8 +6,11 @@ jQuery(($) => {
     const view_select   = $("#view-select");
     const view_load     = $("#view-load");
     const acct_manage   = $("#acct-manage");
-    const acct_mgmt_tpl = $("#acct-mgmt-tpl");
-    const acct_sel_opts = $("#acct-select-opts-tpl");
+    const acct_mgmt     = $("#acct-mgmt");
+    const acct_sel_opts = $("#acct-select-opts");
+    const view_sel_opts = $("#view-select-opts");
+    const dt_conflicts  = $("#data-table-conflicts");
+    const table_div     = $("table-div");
     let viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
@@ -16,6 +19,7 @@ jQuery(($) => {
             parent.empty();
         }
         template = tpl.html();
+        console.log("tpl: ", tpl, "html: ", template);
         tplScript = Handlebars.compile(template);
         html = tplScript(context);
         parent.append(html);
@@ -37,7 +41,7 @@ jQuery(($) => {
         renderTpl(acct_sel_opts, context, acct_select);
     }
     // subscribes to shallow list response
-    pubsub.subscribe("return shallow accts", popAcctSel);
+    pubsub.subscribe("return accts for select", popAcctSel);
     // handles state changes when accts is emptied / populated
     let acctsToggled = disabling => {
         // disables / enables data view options
@@ -56,7 +60,7 @@ jQuery(($) => {
         if ( viewDisabled && !disabling || !viewDisabled && disabling ) {
             togOpts(disabling);
         }
-        pubsub.publish("req shallow accts");
+        pubsub.publish("req accts for select");
     }
     // disables view options on load
     acctsToggled(true);
@@ -162,10 +166,37 @@ jQuery(($) => {
     // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
     let update_list = (topics, accts_listed) => {
+        console.log("updating managed list: ", accts_listed);
         let context = {};
         context.account = accts_listed;
-        renderTpl(acct_mgmt_tpl, context, acct_list);
+        renderTpl(acct_mgmt, context, acct_list);
     };
     // subscribes to update event for account list modal
     pubsub.subscribe("_updAccts", update_list);
+    // renders view select options
+    renderTpl(view_sel_opts, {
+        views: [{
+            name: "Common conflict fields",
+            tag: "conflicts"
+        }, {
+            name: "Before & After analysis" ,
+            tag: "before-after"
+        }, {
+            name: "Cross Account analysis",
+            tag: "cross-account"
+        }]
+    }, view_select)
+    let renderConflicts = (topics, data) => {
+        renderTpl(dt_conflicts, data, table_div);
+    }
+    // subscribes to conflicts table data return event
+    pubsub.subscribe("return conflicts data", renderConflicts);
+    // listener for table load request
+    view_load.on("click", () => {
+        let tableRequest = {};
+        tableRequest.acct = acct_select.val();
+        tableRequest.table = view_select.val();
+        console.log(tableRequest);
+        pubsub.publish("table data request", tableRequest);
+    });
 });

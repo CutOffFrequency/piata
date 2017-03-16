@@ -9,8 +9,8 @@
     <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
 </head>
 <body>
-<!-- handlebars templates -->
-<script id="acct-mgmt-tpl" type="text/x-handlebars-template">
+<!-- templates -->
+<script id="acct-mgmt" type="text/x-handlebars-template">
     {{#each account}}
         <span class="acct_listed" id="acct-listed_{{acct}}" >
             <p class="acct_listed">{{acct}}</p>
@@ -28,10 +28,31 @@
         </span>
     {{/each}}
 </script>
-<script id="acct-select-opts-tpl" type="text/x-handlebars-template">
+<script id="acct-select-opts" type="text/x-handlebars-template">
     {{#each accts}}
-            <option value="{{acct}}">{{account}}</option>
+            <option value="{{account}}">{{account}}</option>
     {{/each}}
+</script>
+<script id="view-select-opts" type="text/x-handlebars-template">
+    {{#each views}}
+            <option value="{{tag}}">{{name}}</option>
+    {{/each}}
+</script>
+<script id="data-table-conflicts" type="text/x-handlebars-template">
+    <table id="conflicts">
+        <tr class="header">
+            <th>file name</th>
+            <th>order / position</th>
+            <th>formula / condition</th>
+        </tr>
+        {{#each entries}}
+            <tr>
+                <td>{{file}}</td>
+                <td>{{where}}</td>
+                <td>{{value}}</td>
+            </tr>
+        {{/each}}
+    </table>
 </script>
 <!-- modal -->
     <div class="modal fade" id="acct-modal">
@@ -60,12 +81,13 @@
     <div class="content" id="acct-div">
         <div class="row row-content">
 <!-- status label -->
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
                 <div class="alert hidden" role="alert" id="acct-alert"></div>
             </div>
 <!-- accts management -->
             <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
-                <input type="text" placeholder="Enter Acct #" class="acct-load" id="acct-input"></input>
+                <input type="text" placeholder="Enter Acct #"
+                class="acct-load" id="acct-input"></input>
                 <button class="btn btn-primary acct-load" id="acct-submit">
                     Load Acct
                 </button>
@@ -81,25 +103,27 @@
 <!-- view options -->
     <div class="content" id="view-div">
         <div class="row row-content">
-            <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
-                <div class="col-xs-12 col-sm-6">
-                    <label>Select Account: </label>
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                    <select id="acct-select">
-                        <option>*Account list is empty*</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-11 col-xs-offset-1 col-sm-4 col-sm-offset-2">
-                <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-11 col-xs-offset-1 col-lg-4 col-sm-offset-2">
+                <div class="col-xs-12 col-lg-6">
                     <label>Select View: </label>
                 </div>
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-lg-6">
                     <select id="view-select"></select>
                 </div>
             </div>
-            <div class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-2">
+            <div class="col-xs-11 col-xs-offset-1 col-lg-4 col-sm-offset-2">
+                <div class="col-xs-12 col-lg-6">
+                    <label>Select Account: </label>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <select id="acct-select">
+                        <option value="null">
+                            *Account list is empty*
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-10 col-xs-offset-1 col-sm-offset-2">
                 <button class="btn btn-primary" id="view-load">
                     Load Table
                 </button>
@@ -108,7 +132,7 @@
     </div>
 <!-- data -->
     <div class="content" id="data-div">
-        <div class="row row-content">
+        <div class="row row-content" id="table-div">
         </div>
     </div>
 <!-- scripts -->
