@@ -148,10 +148,11 @@ jQuery(($) => {
     });
     // subscribes for new acct object to handle
     pubsub.subscribe("return acct", handleAcct)
-    // prepares data for conflicts table rendering
+    // transforms data for conflicts table rendering
     let prepareConflicts = (data) => {
+        console.log("transforming acct data: ", data);
         let context = {};
-        let entries = [];
+        let tableData = [];
         let pushEntry = (file, specOrder) => {
             for (let entry of data[file]) {
                 let row = {};
@@ -166,16 +167,20 @@ jQuery(($) => {
                 }
                 if (entry.CONDITION) {
                     row.value = entry.CONDITION;
-                    entries.push(row);
+                    tableData.push(row);
                 }
             }
         }
-        pushEntry("autoa");
-        pushEntry("autob");
-        pushEntry("dcl");
-        pushEntry("sched_cond");
-        pushEntry("taction", null);
-        pushEntry("remind", "ID_REMIND");
+        let tryToPush = (file, order) => {
+            console.log("attempting: ", file);
+            return _.attempt( pushEntry(file, order) );
+        };
+        tryToPush("autoa");
+        tryToPush("autob");
+        tryToPush("dcl");
+        tryToPush("sched_cond");
+        tryToPush("taction", null);
+        tryToPush("remind", "ID_REMIND");
         for (let entry of data.form) {
             let row = {}
             let page = "page: " + entry.PAGE_NUM;
@@ -184,11 +189,11 @@ jQuery(($) => {
             row.where = page + eRow;
             if (entry.FORMULA) {
                 row.value = entry.FORMULA;
-                entries.push(row);
+                tableData.push(row);
             }
             if (entry.URL) {
                 row.value = entry.URL;
-                entries.push(row);
+                tableData.push(row);
             }
         }
         for (let entry of data.disp_cond) {
@@ -204,26 +209,38 @@ jQuery(($) => {
             if (entry.DATA2) {
                 row.value += " " + entry.DATA2;
             }
-            entries.push(row);
+            tableData.push(row);
         }
-        context.entries = entries;
+        context.entries = tableData;
         console.log(context);
         // pubsub.publish("return conflicts data", context);
     }
     // retrieves client data from accts for table load requests
     let tableRequest = (topics, request) => {
-        console.log("tableRequest invoked");
-        let event, newest, data = {};
+        let nIndex, newest;
+        let addMissingProps = (obj) => {
+            let newObj = obj;
+            let allProps = [ "taction", "sched", "remind", "acct",
+                "autoa", "autob", "contacts", "disp_proc",
+                "disp_steps", "disp_cond", "sched_cond", "dcl",
+                "help", "form","picks", "skips", "vars" ]
+            let objProps = Object.keys(obj);
+            let addProps = _.difference(allProps, objProps);
+            for (let prop of addProps) {
+                newObj[prop] = [];
+            }
+            return newObj;
+        }
         // retrieves client data from accts
         for (let acct of accts) {
             if ( acct[0].acct === Number(request.acct) ) {
-                // prepares data based on type of table
-                newest =  acct[ (acct.length - 1) ];
+                nIndex = acct.length - 1;
+                newest =  acct[nIndex].info;
+                // data transformed based on type of table requested
                 if (request.table === "conflicts") {
-                    console.log("conflicts requested");
-                    // sets data as newest version
-                    data = newest;
-                    prepareConflicts(data);
+                    // prepare newest version for rendering
+                    let addProps = addMissingProps(newest)
+                    prepareConflicts(addProps);
                 }
                 if (request.table === "before-after" ) {
                     // sets data props as oldest & newest versions
