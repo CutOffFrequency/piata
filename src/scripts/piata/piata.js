@@ -164,13 +164,13 @@ jQuery(($) => {
                 }
                 if (entry.CONDITION) {
                     row.value = entry.CONDITION;
-                    tableData.push(row);
-                } else {
-                    if (entry.ACTIVE) {
-                        row.value = "No Condition!"
-                        tableData.push(row);
+                    if (!entry.ACTIVE) {
+                        row.value = "(!) " + row.value;
                     }
+                } else {
+                        row.value = "No Condition!"
                 }
+                tableData.push(row);
             }
         }
         let tryToPush = (file, order) => {
@@ -181,7 +181,7 @@ jQuery(($) => {
         tryToPush("dcl", "ORDER");
         tryToPush("sched_cond", "ORDER");
         tryToPush("taction", "N/A");
-        tryToPush("remind", "ID_REMIND");
+        tryToPush("remind", "N/A");
         for (let entry of data.form) {
             let row = {}
             let page = "page: " + entry.PAGE_NUM;

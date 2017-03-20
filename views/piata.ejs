@@ -39,20 +39,22 @@
     {{/each}}
 </script>
 <script id="data-table-conflicts" type="text/x-handlebars-template">
-    <table id="conflicts">
-        <tr class="header">
-            <th>file name</th>
-            <th>order / position</th>
-            <th>formula / condition</th>
-        </tr>
-        {{#each entries}}
-            <tr>
-                <td>{{file}}</td>
-                <td>{{where}}</td>
-                <td>{{value}}</td>
+    <div  class="col-xs-10 col-xs-offset-1">
+        <table id="conflicts" class="table table-condensed table-bordered">
+            <tr class="header">
+                    <th>File name</th>
+                    <th>Order</th>
+                    <th>Formula / Condition</th>
             </tr>
-        {{/each}}
-    </table>
+            {{#each entries}}
+                <tr>
+                        <td>{{file}}</td>
+                        <td>{{where}}</td>
+                        <td>{{value}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
 </script>
 <!-- modal -->
     <div class="modal fade" id="acct-modal">
