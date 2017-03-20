@@ -157,10 +157,7 @@ jQuery(($) => {
             for (let entry of data[file]) {
                 let row = {};
                 row.file = file;
-                if (!specOrder && specOrder != null) {
-                    row.where = entry.ORDER;
-                }
-                if (specOrder === null ) {
+                if (specOrder === "N/A" ) {
                     row.where="N/A"
                 } else {
                     row.where = entry[specOrder];
@@ -168,18 +165,22 @@ jQuery(($) => {
                 if (entry.CONDITION) {
                     row.value = entry.CONDITION;
                     tableData.push(row);
+                } else {
+                    if (entry.ACTIVE) {
+                        row.value = "No Condition!"
+                        tableData.push(row);
+                    }
                 }
             }
         }
         let tryToPush = (file, order) => {
-            console.log("attempting: ", file);
             return _.attempt( pushEntry(file, order) );
         };
-        tryToPush("autoa");
-        tryToPush("autob");
-        tryToPush("dcl");
-        tryToPush("sched_cond");
-        tryToPush("taction", null);
+        tryToPush("autoa", "ORDER");
+        tryToPush("autob", "ORDER");
+        tryToPush("dcl", "ORDER");
+        tryToPush("sched_cond", "ORDER");
+        tryToPush("taction", "N/A");
         tryToPush("remind", "ID_REMIND");
         for (let entry of data.form) {
             let row = {}
@@ -212,13 +213,12 @@ jQuery(($) => {
             tableData.push(row);
         }
         context.entries = tableData;
-        console.log(context);
-        // pubsub.publish("return conflicts data", context);
+        pubsub.publish("return conflicts data", context);
     }
     // retrieves client data from accts for table load requests
     let tableRequest = (topics, request) => {
-        let nIndex, newest;
-        let addMissingProps = (obj) => {
+        let nIndex, newest, propsAdded;
+        let addProps = (obj) => {
             let newObj = obj;
             let allProps = [ "taction", "sched", "remind", "acct",
                 "autoa", "autob", "contacts", "disp_proc",
@@ -239,8 +239,8 @@ jQuery(($) => {
                 // data transformed based on type of table requested
                 if (request.table === "conflicts") {
                     // prepare newest version for rendering
-                    let addProps = addMissingProps(newest)
-                    prepareConflicts(addProps);
+                    propsAdded = addProps(newest);
+                    prepareConflicts(propsAdded);
                 }
                 if (request.table === "before-after" ) {
                     // sets data props as oldest & newest versions

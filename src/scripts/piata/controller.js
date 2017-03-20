@@ -10,12 +10,13 @@ jQuery(($) => {
     const acct_sel_opts = $("#acct-select-opts");
     const view_sel_opts = $("#view-select-opts");
     const dt_conflicts  = $("#data-table-conflicts");
-    const table_div     = $("table-div");
+    const table_div     = $("#table-div");
     let viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
+        console.log("rendering: ", context);
         let template, tplScript, html;
-        if ( parent.children().length > 0 ){
+        if (parent.children().length > 0) {
             parent.empty();
         }
         template = tpl.html();
@@ -127,7 +128,8 @@ jQuery(($) => {
                     alertType("danger");
                     acct_alert.text(
                         "Input value (" + acct +
-                        ") is invalid or validation failed"
+                        ") is invalid, validation failed " +
+                        " or account is locked"
                     );
                     break;
                 case "delete account":
@@ -166,7 +168,6 @@ jQuery(($) => {
     // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
     let update_list = (topics, accts_listed) => {
-        console.log("updating managed list: ", accts_listed);
         let context = {};
         context.account = accts_listed;
         renderTpl(acct_mgmt, context, acct_list);
@@ -196,7 +197,6 @@ jQuery(($) => {
         let tableRequest = {};
         tableRequest.acct = acct_select.val();
         tableRequest.table = view_select.val();
-        console.log(tableRequest);
         pubsub.publish("table data request", tableRequest);
     });
 });
