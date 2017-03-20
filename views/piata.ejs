@@ -39,13 +39,20 @@
     {{/each}}
 </script>
 <script id="data-table-conflicts" type="text/x-handlebars-template">
-    {{#each entries}}
-        <tr>
-            <td>{{file}}</td>
-            <td>{{where}}</td>
-            <td>{{value}}</td>
+    <table id="conflicts">
+        <tr class="header">
+            <th>file name</th>
+            <th>order / position</th>
+            <th>formula / condition</th>
         </tr>
-    {{/each}}
+        {{#each entries}}
+            <tr>
+                <td>{{file}}</td>
+                <td>{{where}}</td>
+                <td>{{value}}</td>
+            </tr>
+        {{/each}}
+    </table>
 </script>
 <!-- modal -->
     <div class="modal fade" id="acct-modal">
@@ -125,15 +132,7 @@
     </div>
 <!-- data -->
     <div class="content" id="data-div">
-        <div class="row row-content">
-            <table id="conflicts" class="hidden">
-                <tr class="header">
-                    <th>file name</th>
-                    <th>order / position</th>
-                    <th>formula / condition</th>
-                </tr>
-                <div id="table-div"></div>
-            </table>
+        <div class="row row-content" id="table-div">
         </div>
     </div>
 <!-- scripts -->
