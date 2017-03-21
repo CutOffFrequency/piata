@@ -164,12 +164,13 @@ jQuery(($) => {
                 }
                 if (entry.CONDITION) {
                     row.value = entry.CONDITION;
-                    if (!entry.ACTIVE) {
+                    if (entry.ACTIVE === false) {
                         row.value = "(!) " + row.value;
                     }
                 } else {
                         row.value = "No Condition!"
                 }
+                row.desc = entry.DESC;
                 tableData.push(row);
             }
         }
@@ -188,6 +189,7 @@ jQuery(($) => {
             let eRow = " row: " + entry.L_ROW
             row.file = "oe_form: formula";
             row.where = page + eRow;
+            row.desc = entry.GET_FIELD;
             if (entry.FORMULA) {
                 row.value = entry.FORMULA;
                 tableData.push(row);
@@ -210,6 +212,7 @@ jQuery(($) => {
             if (entry.DATA2) {
                 row.value += " " + entry.DATA2;
             }
+            row.desc = entry.DESCR;
             tableData.push(row);
         }
         context.entries = tableData;
