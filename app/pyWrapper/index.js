@@ -27,6 +27,7 @@ let callSpawn = (acct, io) => {
     child.on("close", (code) => {
         let parsedJSON = _.attempt(JSON.parse.bind(null, outJSON));
         if ( parsedJSON instanceof Error ) {
+            console.log(parsedJSON);
             io.of("/piata").emit("JSON error", acct, outJSON);
         } else {
             if (code !== "0" ) {
