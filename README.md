@@ -9,12 +9,12 @@ Additional functionality is currently under development
 TO DO:
 
 1. build more analysis tables
-  1. before / after update analysis
-  2. cross account analysis
-  3. incorporate skip / pick lists?
+  * before / after update analysis
+  * cross account analysis
+  * incorporate skip / pick lists?
 2. incorporate itas solutions RestAPI
-  1. add functionality for tables currently not supported
-  2. simple queries that only require single tables
+  * add functionality for tables currently not supported
+  * simple queries that only require single tables
 
 TO DONE: 
 

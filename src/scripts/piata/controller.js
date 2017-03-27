@@ -11,7 +11,8 @@ jQuery(($) => {
     const view_sel_opts = $("#view-select-opts");
     const dt_conflicts  = $("#data-table-conflicts");
     const table_div     = $("#table-div");
-    let viewDisabled;
+    const table_input   = $("#table-input");
+    let table, viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
         console.log("rendering: ", context);
@@ -56,6 +57,7 @@ jQuery(($) => {
             view_select.prop("disabled", d);
             acct_select.prop("disabled", d);
             acct_manage.prop("disabled", d);
+            table_input.prop("disabled", d);
             viewDisabled = d;
         };
         if ( viewDisabled && !disabling || !viewDisabled && disabling ) {
@@ -188,6 +190,7 @@ jQuery(($) => {
         }]
     }, view_select)
     let renderConflicts = (topics, data) => {
+        table = dt_conflicts;
         renderTpl(dt_conflicts, data, table_div);
     }
     // subscribes to conflicts table data return event
@@ -198,5 +201,32 @@ jQuery(($) => {
         tableRequest.acct = acct_select.val();
         tableRequest.table = view_select.val();
         pubsub.publish("table data request", tableRequest);
+    });
+    table_input.keyup( () => {
+        let searchTerm = table_input.val();
+        let listItem = $(".results tbody").children("tr");
+        let searchSplit = searchTerm.replace(/ /g, "'):containsi:('")
+        $.extend($.expr[':'], {
+            'containsi': function(elem, i, match, array) {
+                return (elem.textContent || elem.innerText || '')
+                .toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+            }
+        });
+        $(".results tbody tr.data").not(":containsi('" + searchSplit + "')").each(
+            function(e) {
+                $(this).attr('visible','false');
+        });
+
+        $(".results tbody tr:containsi('" + searchSplit + "').data").each(
+            function(e) {
+                $(this).attr('visible', 'true');
+        });
+
+        let jobCount = $('.results tbody tr[visible="true"]').length;
+        if (jobCount == '0') {
+            $('.no-result').show();
+        } else {
+            $('.no-result').hide();
+        }
     });
 });

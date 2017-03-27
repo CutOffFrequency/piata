@@ -40,7 +40,7 @@
 </script>
 <script id="data-table-conflicts" type="text/x-handlebars-template">
     <div  class="col-xs-10 col-xs-offset-1">
-        <table id="conflicts" class="table table-condensed table-bordered">
+        <table id="conflicts" class="table table-condensed table-bordered results">
             <tr class="header">
                     <th>Source</th>
                     <th>Order / Location</th>
@@ -48,7 +48,7 @@
                     <th>Condition</th>
             </tr>
             {{#each entries}}
-                <tr>
+                <tr class="data">
                         <td>{{file}}</td>
                         <td>{{where}}</td>
                         <td>{{desc}}</td>
@@ -127,10 +127,19 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-10 col-xs-offset-1 col-sm-offset-2">
+            <div class="col-xs-11 col-xs-offset-1 col-lg-4 col-sm-offset-2">
                 <button class="btn btn-primary" id="view-load">
                     Load Table
                 </button>
+            </div>
+            <div class="col-xs-11 col-xs-offset-1 col-lg-4 col-sm-offset-2">
+                <div class="col-xs-12 col-lg-6">
+                    <label>Search Table: </label>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <input type="text" id="table-input"
+                    placeholder="Enter search term ..." />
+                </div>
             </div>
         </div>
     </div>

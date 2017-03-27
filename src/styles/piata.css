@@ -15,4 +15,9 @@
 	margin-top: 20px;
 	padding-bottom: 10px;
 	margin-bottom: 10px;
+} .results tr[visible='false'],
+  .no-result {
+  	display: none;
+} .results tr[visible='true'] {
+	display: table-row;
 }

@@ -215,6 +215,14 @@ jQuery(($) => {
             row.desc = entry.DESCR;
             tableData.push(row);
         }
+        for (let entry of data.view) {
+            let row = {};
+            row.file = "view";
+            row.where = entry.ORDER;
+            row.value = entry.FORMULA;
+            row.desc = entry.TEMPLATE;
+            tableData.push(row);
+        }
         context.entries = tableData;
         pubsub.publish("return conflicts data", context);
     }
