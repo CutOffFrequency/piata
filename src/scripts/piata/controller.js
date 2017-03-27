@@ -204,10 +204,9 @@ jQuery(($) => {
     });
     table_input.keyup( () => {
         let searchTerm = table_input.val();
-        let listItem = $(".results tbody").children("tr");
         let searchSplit = searchTerm.replace(/ /g, "'):containsi:('")
         $.extend($.expr[':'], {
-            'containsi': function(elem, i, match, array) {
+            'containsi': function(elem, i, match) {
                 return (elem.textContent || elem.innerText || '')
                 .toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
             }
