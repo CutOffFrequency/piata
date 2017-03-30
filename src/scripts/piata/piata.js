@@ -42,6 +42,14 @@ jQuery(($) => {
     let selectAccts = topics => listAccts(false, true);
     // subscribes to shallow accounts list requests
     pubsub.subscribe("req accts for select", selectAccts);
+    let checkAcctsLen = () => {
+        let disable,
+            len = listAccts(false, false).length;
+        disable = len > 0 ? false : true;
+        pubsub.publish("return accts check", disable);
+    }
+    // subscribes to accts length check requests 
+    pubsub.subscribe("check accts length", checkAcctsLen);
     // removes acct from accts
     let delAcct = (acct, remAcct, version) => {
         let errorize = (err) => {
