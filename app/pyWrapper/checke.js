@@ -28,7 +28,7 @@ let lookUp = ( acct )  => {
 let list = () => {
     let accts = [];
     console.log("accts list loading please wait");
-    for ( var i = 1; i < 10000; i++ ) {
+    for ( var i = 1; i < 10000; i += 1 ) {
         if ( lookUp(i) ) {
             accts.push(i);
         }

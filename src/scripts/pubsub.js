@@ -38,7 +38,7 @@ let pubsub = {};
     q.unsubscribe = (token) => {
         for ( let m in topics ) {
             if ( topics[m] ) {
-                for ( let i = 0, j = topics[m].length; i < j; i++) {
+                for ( let i = 0, j = topics[m].length; i < j; i += 1) {
                     if ( topics[m][i].token === token ) {
                         topics[m].splice(i, 1);
                         return token;

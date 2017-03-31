@@ -4,6 +4,9 @@ jQuery(($) => {
     const acct_submit = $("#acct-submit");
     const acct_list = $("#acct-list");
     const acct_manage = $("#acct-manage");
+    const allProps = [ "taction", "sched", "remind", "acct", "autoa",
+        "autob", "contacts", "disp_proc", "disp_steps", "disp_cond",
+        "sched_cond", "dcl", "help", "form","picks", "skips", "vars" ]
     let accts = [];
     // returns array of account numbers for consumption
     let listAccts = (deep, acctsToggled) => {
@@ -16,7 +19,7 @@ jQuery(($) => {
                     listing.acct = account;
                     listing.versions = [];
                     if (acct.length > 1) {
-                        for (let i = 0; i < acct.length; i++) {
+                        for (let i = 0; i < acct.length; i += 1) {
                             let v = {};
                             v.vIndex = i + 1;
                             v.rem_v_id = "rem_a_" + account + "v_" + vIndex;
@@ -73,7 +76,7 @@ jQuery(($) => {
             return
         }
         if (acct) {
-            for (let i = 0; i < accts.length; i++ ) {
+            for (let i = 0; i < accts.length; i += 1 ) {
                 if (accts[i][0].acct == acct ) {
                     if (remAcct) {
                         deleteAccount(i);
@@ -161,6 +164,9 @@ jQuery(($) => {
         console.log("transforming acct data: ", data);
         let context = {};
         let tableData = [];
+        let organize = (file, data) => {
+
+        }
         let pushEntry = (file, specOrder) => {
             for (let entry of data[file]) {
                 let row = {};
@@ -239,10 +245,6 @@ jQuery(($) => {
         let nIndex, newest, propsAdded;
         let addProps = (obj) => {
             let newObj = obj;
-            let allProps = [ "taction", "sched", "remind", "acct",
-                "autoa", "autob", "contacts", "disp_proc",
-                "disp_steps", "disp_cond", "sched_cond", "dcl",
-                "help", "form","picks", "skips", "vars" ]
             let objProps = Object.keys(obj);
             let addProps = _.difference(allProps, objProps);
             for (let prop of addProps) {
