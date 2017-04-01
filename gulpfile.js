@@ -69,7 +69,15 @@ gulp.task("build:apps", ["clean:public"], () => {
             .pipe(gulp.dest("public\\scripts"));
     }
     // specify apps to concatenate scripts for
-    concatApp("piata", "src\\scripts\\piata");
+    //concatApp("piata", "src\\scripts\\piata");
+     fs.readdir("src\\scripts\\", (err, apps) => {
+        let path = "src\\scripts\\"
+        for (let app of apps) {
+            if ( fs.statSync(path + app).isDirectory() ) {
+                concatApp(app, path + app);
+            }
+        }
+     })
 });
 gulp.task("build:maincss", ["clean:public"], () => {
     return gulp.src([
