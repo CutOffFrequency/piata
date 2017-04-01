@@ -15,14 +15,11 @@ jQuery(($) => {
     let viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
-        let template, tplScript, html;
-        if (parent.children().length > 0) {
-            parent.empty();
-        }
-        template = tpl.html();
-        tplScript = Handlebars.compile(template);
-        html = tplScript(context);
-        parent.append(html);
+        let data = {};
+        data.tpl = tpl;
+        data.context = context;
+        data.parent = parent;
+        pubsub.publish("render handlebars", data);
     }
     // populates accounts select
     let popAcctSel = (topics, accts_listed) => {
@@ -98,7 +95,6 @@ jQuery(($) => {
             let errorize = err => {
                 console.log(err);
             }
-            console.log("alerting: ", event, acct);
             if ( acct_alert.hasClass("hidden") ) {
                 acct_alert.removeClass("hidden")
             }
@@ -177,22 +173,8 @@ jQuery(($) => {
         renderTpl(acct_mgmt, context, acct_list);
     };
     pubsub.subscribe("_updAccts", update_list);
-    // renders view select options
-    renderTpl(view_sel_opts, {
-        views: [{
-            name: "Common conflict fields",
-            tag: "conflicts"
-        }, {
-            name: "Before & After analysis" ,
-            tag: "before-after"
-        }, {
-            name: "Cross Account analysis",
-            tag: "cross-account"
-        }]
-    }, view_select)
     // handles conflicts table data return event
     let renderConflicts = (topics, data) => {
-        table = dt_conflicts;
         renderTpl(dt_conflicts, data, table_div);
     }
     pubsub.subscribe("return conflicts data", renderConflicts);

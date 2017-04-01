@@ -33,11 +33,6 @@
             <option value="{{account}}">{{account}}</option>
     {{/each}}
 </script>
-<script id="view-select-opts" type="text/x-handlebars-template">
-    {{#each views}}
-            <option value="{{tag}}">{{name}}</option>
-    {{/each}}
-</script>
 <script id="data-table-conflicts" type="text/x-handlebars-template">
     <div  class="col-xs-10 col-xs-offset-1">
         <table id="conflicts" class="table table-condensed table-bordered results">
@@ -112,7 +107,17 @@
                     <label>Select View: </label>
                 </div>
                 <div class="col-xs-12 col-lg-6">
-                    <select id="view-select"></select>
+                    <select id="view-select">
+                        <option value="conflicts">
+                            Common conflict fields
+                        </option>
+                        <option value="before-after">
+                            Before-After analysis
+                        </option>
+                        <option value="cross-account">
+                            Cross account analysis
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="col-xs-11 col-xs-offset-1 col-lg-4 col-sm-offset-2">
@@ -154,5 +159,6 @@
     <script src="public/scripts/pubsub.js"></script>
     <script src="node_modules/lodash/lodash.js"></script>
     <script src="public/scripts/piata.js"></script>
+    <script src="public/scripts/render.js"></script>
 </body>
 </html>

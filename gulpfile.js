@@ -60,7 +60,7 @@ gulp.task("build:apps", ["clean:public"], () => {
         let scripts = fs.readdirSync(src);
         let concatScripts = (scripts, src) => {
             let newArray = [];
-            for (let i = 0; i < scripts.length; i++) {
+            for (let i = 0; i < scripts.length; i += 1) {
                 newArray.push( src + "\\" + scripts[i] );
             }
             return newArray;
