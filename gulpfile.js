@@ -55,6 +55,7 @@ gulp.task("build:scripts", ["clean:public"], () => {
 });
 // concats app specific scripts by subdir
 gulp.task("build:apps", ["clean:public"], () => {
+    let path = "src\\scripts\\";
     let concatApp = (app, src) => {
         let scripts = fs.readdirSync(src);
         let concatScripts = (scripts, src) => {
@@ -69,15 +70,13 @@ gulp.task("build:apps", ["clean:public"], () => {
             .pipe(gulp.dest("public\\scripts"));
     }
     // specify apps to concatenate scripts for
-    //concatApp("piata", "src\\scripts\\piata");
-     fs.readdir("src\\scripts\\", (err, apps) => {
-        let path = "src\\scripts\\"
+    fs.readdir(path, (err, apps) => {
         for (let app of apps) {
             if ( fs.statSync(path + app).isDirectory() ) {
                 concatApp(app, path + app);
             }
         }
-     })
+    })
 });
 gulp.task("build:maincss", ["clean:public"], () => {
     return gulp.src([
