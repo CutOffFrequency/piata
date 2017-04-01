@@ -12,6 +12,10 @@ let routing = (req, res) => {
             path: "/piata",
             view: "piata",
             title: "Pi ataGlance"
+        }, {
+            path: "/restapi",
+            view: "restapi",
+            title: "RestAPI"
         }];
     let routeIndex = routes.findIndex(route => route.path === req.path);
     if (routeIndex >= 0) {

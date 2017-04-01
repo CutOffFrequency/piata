@@ -12,7 +12,7 @@ jQuery(($) => {
     const dt_conflicts  = $("#data-table-conflicts");
     const table_div     = $("#table-div");
     const table_input   = $("#table-input");
-    let table, viewDisabled;
+    let viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
         let template, tplScript, html;
@@ -42,9 +42,8 @@ jQuery(($) => {
     }
     // subscribes to shallow list response
     pubsub.subscribe("return accts for select", popAcctSel);
-    // handles state changes when accts is emptied / populated
+    // disables / enables data view options
     let acctsToggled = disabling => {
-        // disables / enables data view options
         let togOpts = d => {
             if (d) {
                 acct_manage.val("Load an Account to Continue");
@@ -65,6 +64,7 @@ jQuery(($) => {
     }
     // disables view options on load
     acctsToggled(true);
+    // checks acct to toggle disabled state of acct elems
     let checkAcctsLen = (topics, val) => {
         acctsToggled(val);
     }
@@ -141,7 +141,6 @@ jQuery(($) => {
                     acct_alert.text(
                         acct + ": all versions were removed"
                     );
-                    // checks acct to toggle disabled state of acct elems
                     pubsub.publish("check accts length");
                     break;
                 case "delete version":
@@ -170,14 +169,13 @@ jQuery(($) => {
         }
         alertText(eventHandled.event, eventHandled.acct);
     };
-    // subscribes to alert-element update events
     pubsub.subscribe("_acct handled", updAlert);
+    // subscribes to update event for account list modal
     let update_list = (topics, accts_listed) => {
         let context = {};
         context.account = accts_listed;
         renderTpl(acct_mgmt, context, acct_list);
     };
-    // subscribes to update event for account list modal
     pubsub.subscribe("_updAccts", update_list);
     // renders view select options
     renderTpl(view_sel_opts, {
@@ -192,11 +190,11 @@ jQuery(($) => {
             tag: "cross-account"
         }]
     }, view_select)
+    // handles conflicts table data return event
     let renderConflicts = (topics, data) => {
         table = dt_conflicts;
         renderTpl(dt_conflicts, data, table_div);
     }
-    // subscribes to conflicts table data return event
     pubsub.subscribe("return conflicts data", renderConflicts);
     // listener for table load request
     view_load.on("click", () => {
@@ -205,30 +203,31 @@ jQuery(($) => {
         tableRequest.table = view_select.val();
         pubsub.publish("table data request", tableRequest);
     });
+    // toggles table data visibility for by input search term
     table_input.keyup( () => {
         let searchTerm = table_input.val();
         let searchSplit = searchTerm.replace(/ /g, "'):containsi:('")
-        $.extend($.expr[':'], {
-            'containsi': function(elem, i, match) {
-                return (elem.textContent || elem.innerText || '')
+        $.extend($.expr[":"], {
+            "containsi": function(elem, i, match) {
+                return (elem.textContent || elem.innerText || "")
                 .toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
             }
         });
         $(".results tbody tr.data").not(":containsi('" + searchSplit + "')").each(
             function(e) {
-                $(this).attr('visible','false');
+                $(this).attr("visible", "false");
         });
 
         $(".results tbody tr:containsi('" + searchSplit + "').data").each(
             function(e) {
-                $(this).attr('visible', 'true');
+                $(this).attr("visible", "true");
         });
 
         let jobCount = $('.results tbody tr[visible="true"]').length;
-        if (jobCount == '0') {
-            $('.no-result').show();
+        if (jobCount == "0") {
+            $(".no-result").show();
         } else {
-            $('.no-result').hide();
+            $(".no-result").hide();
         }
     });
 });
