@@ -15,13 +15,11 @@ jQuery(($) => {
     let table, viewDisabled;
     // compiles handlebars to render templates from markup
     let renderTpl = (tpl, context, parent) => {
-        console.log("rendering: ", context);
         let template, tplScript, html;
         if (parent.children().length > 0) {
             parent.empty();
         }
         template = tpl.html();
-        console.log("tpl: ", tpl, "html: ", template);
         tplScript = Handlebars.compile(template);
         html = tplScript(context);
         parent.append(html);
@@ -67,6 +65,10 @@ jQuery(($) => {
     }
     // disables view options on load
     acctsToggled(true);
+    let checkAcctsLen = (topics, val) => {
+        acctsToggled(val);
+    }
+    pubsub.subscribe("return accts check", checkAcctsLen);
     // updates alert for user feedback
     let updAlert = (topics, eventHandled) => {
         // updates alert color
@@ -139,7 +141,8 @@ jQuery(($) => {
                     acct_alert.text(
                         acct + ": all versions were removed"
                     );
-                    acctsToggled(true);
+                    // checks acct to toggle disabled state of acct elems
+                    pubsub.publish("check accts length");
                     break;
                 case "delete version":
                     alertType("warning");
