@@ -165,14 +165,34 @@ jQuery(($) => {
         let context = {};
         let tableData = [];
         let organize = (file, data) => {
-
+            console.log("organize data: ", data);
+            let organized = [];
+            for (let i = data.length; i > 0; i -= 1) {
+                let pos,
+                    spliced = data.splice(i, 1);
+                if ( typeof spliced.where === "number") {
+                    pos = _.sortedIndexBy(
+                        organized, spliced, spliced.where
+                    );
+                } else {
+                    pos = _.sortedIndexBy( 
+                        organized, spliced, Number(spliced.where)
+                    );
+                }
+                organized.splice(pos, 0, spliced);
+            }
+            console.log("organized", organized);
+            tableData = tableData.concat(organized);
         }
         let pushEntry = (file, specOrder) => {
+            let fileArr = [];
+            // determines if data can be ordered
+            let orderable = specOrder === "N/A" ? false : true;
             for (let entry of data[file]) {
                 let row = {};
                 row.file = file;
                 if (specOrder === "N/A" ) {
-                    row.where="N/A"
+                    row.where = "N/A"
                 } else {
                     row.where = entry[specOrder];
                 }
@@ -185,7 +205,14 @@ jQuery(($) => {
                         row.value = "No Condition!"
                 }
                 row.desc = entry.DESC;
-                tableData.push(row);
+                if (orderable === false) {
+                    tableData.push(row);
+                } else {
+                    fileArr.push(row);
+                }
+            }
+            if (orderable === true) {
+                organize(file, fileArr);
             }
         }
         let tryToPush = (file, order) => {
