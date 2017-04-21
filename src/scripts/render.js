@@ -12,7 +12,7 @@ jQuery(($) => {
         parent.append(html);
     }
     let transformArgs = (topics, data) => {
-        console.log("transforming: ", data);
+        // console.log("transforming: ", data);
         renderTpl(data.tpl, data.context, data.parent);
     }
     pubsub.subscribe("render handlebars", transformArgs);

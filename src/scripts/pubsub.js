@@ -8,7 +8,7 @@ let pubsub = {};
     // publish event
     // with: name & data (args)
     q.publish = ( topic, args ) => {
-        console.log("publishing: ", topic);
+        // console.log("publishing: ", topic);
         let subscribers, len;
         if ( !topics[topic] ) {
             return false
@@ -24,7 +24,7 @@ let pubsub = {};
     // with: topic name & callback
     // callback executes when event is observed
     q.subscribe = ( topic, func ) => {
-        console.log("found subscription: ", topic);
+        // console.log("found subscription: ", topic);
         if ( !topics[topic] ) {
             topics[topic] = [];
         }

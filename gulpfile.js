@@ -4,7 +4,6 @@ const concat = require("gulp-concat");
 const del = require("del");
 const eslint = require("gulp-eslint");
 const fs = require("fs");
-let lazy = false;
 /* default task work flow
 *
 *   lint:public

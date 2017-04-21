@@ -27,7 +27,7 @@ jQuery(($) => {
         data.context = {};
         data.context[contextName] = context
         data.parent = parent;
-        console.log("rendering: ", data);
+        // console.log("rendering: ", data);
         pubsub.publish("render handlebars", data);
     }
     // render document select options on load
