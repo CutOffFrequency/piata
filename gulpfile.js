@@ -31,6 +31,12 @@ gulp.task("clean:public", ["lint:public"], () => {
     "public/styles/**/*"
     ]);
 });
+gulp.task("clean:lazy", () => {
+    return del([
+    "public/scripts/**/*",
+    "public/styles/**/*"
+    ]);
+});
 gulp.task("build:mainjs", ["clean:public"], () => {
     return gulp.src([
         "src/distribution",
@@ -128,7 +134,7 @@ gulp.task("default", [
     "copy:bs.css.map",
 ]);
 gulp.task("lazy", [
-    "clean:public",
+    "clean:lazy",
     "build:mainjs",
     "build:maincss",
     "build:scripts",

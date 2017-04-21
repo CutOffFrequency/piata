@@ -4,19 +4,7 @@ let express = require("express");
 
 let routing = (req, res) => {
     let router = express.Router(),
-        routes = [{
-            path: "/",
-            view: "home",
-            title: "ssMain"
-        }, {
-            path: "/piata",
-            view: "piata",
-            title: "Pi ataGlance"
-        }, {
-            path: "/restapi",
-            view: "restapi",
-            title: "RestAPI"
-        }];
+        routes = require("./routes.js");
     let routeIndex = routes.findIndex(route => route.path === req.path);
     if (routeIndex >= 0) {
         res.status(200).render(routes[routeIndex].view, {
