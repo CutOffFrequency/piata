@@ -1,3 +1,5 @@
+/* global  Handlebars, pubsub, io, _ */
+
 "use strict";
 jQuery(($) => {
     const acct_input = $("#acct-input");

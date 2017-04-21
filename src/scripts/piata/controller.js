@@ -1,3 +1,5 @@
+/* global  Handlebars, pubsub, io, _ */
+
 jQuery(($) => {
     // jquery dom elements
     const acct_alert    = $("#acct-alert");
@@ -99,32 +101,36 @@ jQuery(($) => {
                 acct_alert.removeClass("hidden")
             }
             switch(event) {
-                case "found":
+                case "found": {
                     alertType("warning");
                     acct_alert.text(
                         acct + " is loading, please wait..."
                     );
                     break;
-                case "new account":
+                }
+                case "new account": {
                     alertType("success");
                     acct_alert.text(
                         acct + " successfully loaded - ready to examine"
                     );
                     acctsToggled(false);
                     break;
-                case "new version":
+                }
+                case "new version": {
                     alertType("warning");
                     acct_alert.text(
                         acct + " reloaded - a new version is available"
                     );
                     break;
-                case "match found":
+                }
+                case "match found": {
                     alertType("success");
                     acct_alert.text(
                         acct + " matches version cached, no changes made"
                     );
                     break;
-                case "invalid":
+                }
+                case "invalid": {
                     alertType("danger");
                     acct_alert.text(
                         "Input value (" + acct +
@@ -132,28 +138,33 @@ jQuery(($) => {
                         " or account is locked"
                     );
                     break;
-                case "delete account":
+                }
+                case "delete account": {
                     alertType("warning");
                     acct_alert.text(
                         acct + ": all versions were removed"
                     );
                     pubsub.publish("check accts length");
                     break;
-                case "delete version":
+                }
+                case "delete version": {
                     alertType("warning");
                     acct_alert.text(
                         acct + " version was removed, list reindexed"
                     );
                     break;
-                case "JSON error":
+                }
+                case "JSON error": {
                     alertType("danger");
                     acct_alert.text("an error occurred parsing the returned object from python");
                     break;
-                case "null data":
+                }
+                case "null data": {
                     alertType("danger");
                     acct_alert.text("request processed but null acct data returned!");
                     break;
-                default:
+                }
+                default: {
                     let errAcct, errEvent, errMsg;
                     errAcct = acct ? 
                         "acct: " + acct : "no acct data!"
@@ -161,6 +172,7 @@ jQuery(($) => {
                         "event: " + event : "no event data!"
                     errMsg = errAcct + " " + errEvent
                     errorize(errMsg);
+                }
             }
         }
         alertText(eventHandled.event, eventHandled.acct);

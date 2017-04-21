@@ -3,36 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="public/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/restapi.css">
+    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
 </head>
 <body>
+<!-- templates -->
+<script id="doc-select-opts" type="text/x-handlebars-template">
+    {{#each docs}}
+            <option value="{{tag}}">{{name}}</option>
+    {{/each}}
+</script>
+<script id="doc-select-opts" type="text/x-handlebars-template">
+    {{#each responses}}
+    {{/each}}
+</script>
+<!-- jumbotron -->
     <header class="jumbotron">
         <div class="container">
             <h1 id="header">Scripting's RestAPI Interface</h1>
         </div>
     </header>
+<!-- content body -->
     <div class="content">
         <div class="row row-content">
             <div class="col-xs-11 col-xs-offset-1 col-sm-offset-2">
                 <div class="col-xs-12 col-sm-6">
-                    <input type="text" placeholder="Enter Acct #" class="acct-load" id="acct-input">
+                    <input type="text" placeholder="Enter Acct #" id="acct-input">
                 </div>
                     </input>
-                <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-2 interface">
                     <label>Select Document: </label>
                 </div>
-                <div class="col-xs-12 col-sm-3">
+                <div class="col-xs-12 col-sm-4">
                     <select id="doc-select"></select>
+                </div>
+            </div>
+            <div class="col-xs-11 col-xs-offset-1 col-sm-offset-2">
+                <div class="col-xs-12 col-sm-6 interface">
+                    <button class="btn btn-primary" id="query-button">
+                        Load Result
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="public/scripts/main.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="public/scripts/pubsub.js"></script>
     <script src="node_modules/lodash/lodash.js"></script>
     <script src="public/scripts/restapi.js"></script>
     <script src="public/scripts/render.js"></script>
-
 </body>
 </html>

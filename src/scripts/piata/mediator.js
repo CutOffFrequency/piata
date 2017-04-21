@@ -1,3 +1,5 @@
+/* global  Handlebars, pubsub, io, _ */
+
 "use strict";
 // does the heavy lifting for client <-> server communication
 ((global) => {

@@ -14,7 +14,7 @@ const fs = require("fs");
 *   build:maincss
 */
 gulp.task("lint:public", () => {
-    return gulp.src("src/scripts")
+    return gulp.src("src/scripts/**/*.js")
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -115,5 +115,5 @@ gulp.task("default", [
     "build:scripts",
     "build:apps",
     "build:styles",
-    "copy:bs.css.map"
+    "copy:bs.css.map",
 ]);

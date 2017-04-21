@@ -1,4 +1,6 @@
-"use strict"; 
+/* global  Handlebars, pubsub, io, _ */
+
+"use strict";
 let pubsub = {};
 ((q) => {
     let topics = {},
