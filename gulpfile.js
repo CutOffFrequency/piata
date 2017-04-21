@@ -4,6 +4,7 @@ const concat = require("gulp-concat");
 const del = require("del");
 const eslint = require("gulp-eslint");
 const fs = require("fs");
+let lazy = false;
 /* default task work flow
 *
 *   lint:public
@@ -26,12 +27,6 @@ gulp.task("lint:app", () => {
         .pipe(eslint.failAfterError());
 });
 gulp.task("clean:public", ["lint:public"], () => {
-    return del([
-    "public/scripts/**/*",
-    "public/styles/**/*"
-    ]);
-});
-gulp.task("clean:lazy", () => {
     return del([
     "public/scripts/**/*",
     "public/styles/**/*"
@@ -126,15 +121,6 @@ gulp.task("lint:all", [
 gulp.task("default", [
     "lint:all",
     "clean:public",
-    "build:mainjs",
-    "build:maincss",
-    "build:scripts",
-    "build:apps",
-    "build:styles",
-    "copy:bs.css.map",
-]);
-gulp.task("lazy", [
-    "clean:lazy",
     "build:mainjs",
     "build:maincss",
     "build:scripts",

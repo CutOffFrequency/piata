@@ -6,6 +6,9 @@ let routing = (req, res) => {
     let router = express.Router(),
         routes = require("./routes.js");
     let routeIndex = routes.findIndex(route => route.path === req.path);
+    if (req.path === "favicon.ico") {
+        res.status(200);
+    }
     if (routeIndex >= 0) {
         res.status(200).render(routes[routeIndex].view, {
             title: routes[routeIndex].title
