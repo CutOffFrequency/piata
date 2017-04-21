@@ -19,6 +19,12 @@ gulp.task("lint:public", () => {
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
 });
+gulp.task("lint:app", () => {
+    return gulp.src("app/**/**/*.js")
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
+});
 gulp.task("clean:public", ["lint:public"], () => {
     return del([
     "public/scripts/**/*",
@@ -107,8 +113,21 @@ gulp.task("copy:bs.css.map", ["build:styles"], () => {
         .pipe(gulp.dest("public/styles"));
 })
 // meta tasks
-gulp.task("default", [
+gulp.task("lint:all", [
     "lint:public",
+    "lint:app"
+]);
+gulp.task("default", [
+    "lint:all",
+    "clean:public",
+    "build:mainjs",
+    "build:maincss",
+    "build:scripts",
+    "build:apps",
+    "build:styles",
+    "copy:bs.css.map",
+]);
+gulp.task("lazy", [
     "clean:public",
     "build:mainjs",
     "build:maincss",
