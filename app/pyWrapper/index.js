@@ -2,13 +2,15 @@
 const spawn = require("child_process").spawn;
 const checkAcct = require("../pyWrapper/checke.js").check;
 const _ = require("lodash");
+const globals = require("../../global.js").paths;
 // spawns child process to call python script
 let callSpawn = (acct, io) => {
     io.of("/piata").emit("spawning", acct);
     // inits arguments / options
-    const loc = "e:\\scripts\\eriknowledgence";
-    const command = "e:\\python27\\python";
-    const script = "erik.py";
+    const drive = globals.root;
+    const loc = globals.script;
+    const command = drive + "\\python27\\python";
+    const script = "piata.py";
     const args = [ script, "-u", acct, "stream" ];
     const options = { stdio: "pipe", cwd: loc };
     let outJSON = "";

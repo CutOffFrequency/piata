@@ -6,3 +6,6 @@ public/
 node_modules/
 bower_components/
 log.txt
+global.js
+piata.py
+clients/

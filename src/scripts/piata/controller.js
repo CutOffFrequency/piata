@@ -200,7 +200,7 @@ jQuery(($) => {
     // toggles table data visibility for by input search term
     table_input.keyup( () => {
         let searchTerm = table_input.val();
-        let searchSplit = searchTerm.replace(/ /g, "'):containsi:('")
+        let searchSplit = searchTerm.replace(/\s/g, "'):containsi:('")
         $.extend($.expr[":"], {
             "containsi": function(elem, i, match) {
                 return (elem.textContent || elem.innerText || "")

@@ -1,10 +1,11 @@
 "use strict";
 const fs = require("fs");
 const _ = require("lodash");
+const globals = require("../../global.js").paths;
 
 let lookUp = ( acct )  => {
-    const ordentry = "e:\\ordentry\\";
-    // if acct number is in range, check e:
+    const ordentry = globals.root + "\\ordentry\\";
+    // if acct number is in range, check ordentry
     if ( acct % 1 === 0 && acct > 0 && acct < 10000 ) {
         let target = _.attempt( (path) => {
             return fs.statSync(path);

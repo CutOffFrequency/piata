@@ -8,6 +8,7 @@ Additional functionality is currently under development
 
 TO DO:
 
+?. replace bower with browserify
 1. build more analysis tables
   * before / after update analysis
   * cross account analysis
@@ -19,5 +20,7 @@ TO DO:
 TO DONE: 
 
 * Common conflicts table for analyzing sensitivities during updates, lists all relevant condition fields from client data
+
+* Moved dir variable to global.js (added to .gitignore)
 
 *Previous repo has been removed- a record of all previous commits has been preserved in the branch: prevcommits
