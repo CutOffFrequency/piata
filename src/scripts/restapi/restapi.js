@@ -1,7 +1,13 @@
 /* global  Handlebars, pubsub, io, _ */
 
 jQuery(($) => {
-    const url = "https://rest-api.bpeinc.com/v1/ORDENTRY/";
+
+    let url;
+
+    let piApi = (topics, api) => {
+        url = api.pinrest
+    }
+    pubsub.subscribe("initialize pirest", piApi);
     
     let handleQuery = (topics, requested) => {
         let request = new Request(url + requested);
