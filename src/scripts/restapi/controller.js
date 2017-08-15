@@ -38,7 +38,7 @@ jQuery(($) => {
     query_button.on("click", () => {
         let acct = acct_input.val();
         let doc = doc_select.val();
-        let format = acct + "/" + doc + "?&out=json";
+        let format = `${acct}/${doc}?&out=json`;
         pubsub.publish("query requested", format);
     });
 });
