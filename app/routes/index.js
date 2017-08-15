@@ -1,11 +1,11 @@
 "use strict";
 
-let express = require("express");
+let express = require("express"),
+    routes = require("./routes.js");
 
 let routing = (req, res) => {
     let router = express.Router(),
-        routes = require("./routes.js");
-    let routeIndex = routes.findIndex(route => route.path === req.path);
+        routeIndex = routes.findIndex(route => route.path === req.path);
     if (req.path === "favicon.ico") {
         res.status(200);
     }

@@ -38,8 +38,7 @@ jQuery(($) => {
     query_button.on("click", () => {
         let acct = acct_input.val();
         let doc = doc_select.val();
-        let concat = acct + "/" + doc + "?&out=json";
-        // console.log(concat);
-        pubsub.publish("query requested", concat);
+        let format = acct + "/" + doc + "?&out=json";
+        pubsub.publish("query requested", format);
     });
 });

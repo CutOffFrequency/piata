@@ -3,12 +3,18 @@
 "use strict";
 // does the heavy lifting for client <-> server communication
 ((global) => {
-    const socket = io.connect("http://localhost:8000/piata");
+    const socket = io.connect("http://localhost:8000/restapi");
 
     socket.on("connect", () => {
-        socket.emit("initialize restapi");
+        console.log("connected to socket server");
     });
-    socket.on("return restapi", (data) => {
-        pubsub.publish("return restapi", data);
+
+    let handleQuery = (topics, query) => {
+        socket.emit("restapi request", query);
+    };
+    pubsub.subscribe("query requested", handleQuery);
+
+    socket.on("restapi response", (data) => {
+        console.log(data);
     })
 })(window);
